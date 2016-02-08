@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.avaje.util</groupId>
+  <groupId>org.avaje</groupId>
   <artifactId>avaje-classpath-scanner</artifactId>
   <version>1.1.1-SNAPSHOT</version>
 
@@ -43,47 +43,42 @@
       <version>[1.7,1.8)</version>
     </dependency>
 
+    <!-- Provided optional dependencies -->
     <dependency>
       <groupId>org.jboss</groupId>
       <artifactId>jboss-vfs</artifactId>
+      <version>3.2.11.Final</version>
       <scope>provided</scope>
-      <version>LATEST</version>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.osgi</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <scope>provided</scope>
       <version>3.6.0.v20100517</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.equinox</groupId>
       <artifactId>org.eclipse.equinox.common</artifactId>
-      <scope>provided</scope>
       <version>3.6.0.v20100503</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android</artifactId>
-      <scope>provided</scope>
       <version>4.0.1.2</version>
+      <scope>provided</scope>
     </dependency>
 
+    <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-
-    <!--<dependency>-->
-    <!--<groupId>org.assertj</groupId>-->
-    <!--<artifactId>assertj-core</artifactId>-->
-    <!--<version>3.1.0</version>-->
-    <!--<scope>test</scope>-->
-    <!--</dependency>-->
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
