@@ -26,6 +26,10 @@ public class ScannerTest {
     assertNotNull(resource.getLocation());
     assertEquals("Hello", resource.loadAsString("UTF-8"));
     assertNotNull(resource.loadAsBytes());
+
+    resources = scanner.scanForResources("scantest", ResourceMatch.bySuffix(".txt"));
+    assertEquals(1, resources.size());
+    assertEquals("one.txt", resources.get(0).getFilename());
   }
 
   @Test

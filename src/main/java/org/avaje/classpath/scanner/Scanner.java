@@ -42,6 +42,10 @@ public class Scanner {
 
   /**
    * Scans this location for resources matching the given predicate.
+   * <p>
+   * The location can have a prefix of <code>filesystem:</code> or <code>classpath:</code> to determine
+   * how to scan. If no prefix is used then classpath scan is the default.
+   * </p>
    *
    * @param location  The location to start searching. Subdirectories are also searched.
    * @param predicate The predicate used to match resource names.
@@ -55,6 +59,20 @@ public class Scanner {
     return resourceAndClassScanner.scanForResources(location, predicate);
   }
 
+  /**
+   * Scans this location for resources matching the given predicate.
+   * <p>
+   * The location can have a prefix of <code>filesystem:</code> or <code>classpath:</code> to determine
+   * how to scan. If no prefix is used then classpath scan is the default.
+   * </p>
+   *
+   * @param location  The location to start searching. Subdirectories are also searched.
+   * @param predicate The predicate used to match resource names.
+   * @return The resources that were found.
+   */
+  public List<Resource> scanForResources(String location, MatchResource predicate) {
+    return scanForResources(new Location(location), predicate);
+  }
 
   /**
    * Scans the classpath for classes under the specified package matching the given predicate.
