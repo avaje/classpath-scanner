@@ -17,13 +17,13 @@ package org.avaje.classpath.scanner.internal.scanner.classpath;
 
 import org.avaje.classpath.scanner.ClassPathScanException;
 import org.avaje.classpath.scanner.Location;
-import org.avaje.classpath.scanner.MatchClass;
-import org.avaje.classpath.scanner.MatchResource;
+import org.avaje.classpath.scanner.ClassFilter;
+import org.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.Resource;
-import org.avaje.classpath.scanner.ResourceMatch;
+import org.avaje.classpath.scanner.FilterResource;
 import org.avaje.classpath.scanner.internal.EnvironmentDetection;
 import org.avaje.classpath.scanner.internal.UrlUtils;
-import org.avaje.classpath.scanner.internal.scanner.ResourceAndClassScanner;
+import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv2UrlResolver;
 import org.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv3ClassPathLocationScanner;
 import org.slf4j.Logger;
@@ -77,7 +77,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   }
 
   @Override
-  public List<Resource> scanForResources(Location path, MatchResource predicate) {
+  public List<Resource> scanForResources(Location path, ResourceFilter predicate) {
 
     try {
       List<Resource> resources = new ArrayList<Resource>();
@@ -96,14 +96,14 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   }
 
   @Override
-  public List<Class<?>> scanForClasses(Location location, MatchClass predicate) {
+  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
 
     try {
       LOG.debug("scanning for classes at {}", location);
 
       List<Class<?>> classes = new ArrayList<Class<?>>();
 
-      Set<String> resourceNames = findResourceNames(location, ResourceMatch.bySuffix(".class"));
+      Set<String> resourceNames = findResourceNames(location, FilterResource.bySuffix(".class"));
       for (String resourceName : resourceNames) {
         String className = toClassName(resourceName);
         Class<?> clazz = classLoader.loadClass(className);
@@ -138,7 +138,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    * Finds the resources names present at this location and below on the classpath starting with this prefix and
    * ending with this suffix.
    */
-  private Set<String> findResourceNames(Location location, MatchResource predicate) throws IOException {
+  private Set<String> findResourceNames(Location location, ResourceFilter predicate) throws IOException {
 
     Set<String> resourceNames = new TreeSet<String>();
 
@@ -274,7 +274,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   /**
    * Filters this list of resource names to only include the ones whose filename matches this prefix and this suffix.
    */
-  private Set<String> filterResourceNames(Set<String> resourceNames, MatchResource predicate) {
+  private Set<String> filterResourceNames(Set<String> resourceNames, ResourceFilter predicate) {
 
     Set<String> filteredResourceNames = new TreeSet<String>();
     for (String resourceName : resourceNames) {

@@ -17,7 +17,7 @@ public class ScannerTest {
   public void testScanForResources() throws Exception {
 
     Scanner scanner = new Scanner(classLoader);
-    List<Resource> resources = scanner.scanForResources(new Location("scantest"), ResourceMatch.bySuffix(".txt"));
+    List<Resource> resources = scanner.scanForResources(new Location("scantest"), FilterResource.bySuffix(".txt"));
 
     assertEquals(1, resources.size());
     Resource resource = resources.get(0);
@@ -27,7 +27,7 @@ public class ScannerTest {
     assertEquals("Hello", resource.loadAsString("UTF-8"));
     assertNotNull(resource.loadAsBytes());
 
-    resources = scanner.scanForResources("scantest", ResourceMatch.bySuffix(".txt"));
+    resources = scanner.scanForResources("scantest", FilterResource.bySuffix(".txt"));
     assertEquals(1, resources.size());
     assertEquals("one.txt", resources.get(0).getFilename());
   }
@@ -36,7 +36,7 @@ public class ScannerTest {
   public void testScanForClasses() throws Exception {
 
 
-    MatchClass predicate = new MatchClass() {
+    ClassFilter predicate = new ClassFilter() {
       @Override
       public boolean isMatch(Class<?> cls) {
         return SomeTestInterface.class.isAssignableFrom(cls);

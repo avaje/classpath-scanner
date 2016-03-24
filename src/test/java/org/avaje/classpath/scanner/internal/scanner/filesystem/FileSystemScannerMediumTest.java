@@ -16,7 +16,7 @@
 package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import org.avaje.classpath.scanner.Location;
-import org.avaje.classpath.scanner.ResourceMatch;
+import org.avaje.classpath.scanner.FilterResource;
 import org.junit.Test;
 
 /**
@@ -25,6 +25,6 @@ import org.junit.Test;
 public class FileSystemScannerMediumTest {
     @Test
     public void nonExistentDirectory() throws Exception {
-        new FileSystemScanner().scanForResources(new Location("filesystem:/invalid-path"), ResourceMatch.byPrefixSuffix("",""));
+        new FileSystemScanner().scanForResources(new Location("filesystem:/invalid-path"), FilterResource.byPrefixSuffix("",""));
     }
 }

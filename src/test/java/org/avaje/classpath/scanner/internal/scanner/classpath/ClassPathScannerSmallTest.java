@@ -16,9 +16,9 @@
 package org.avaje.classpath.scanner.internal.scanner.classpath;
 
 import org.avaje.classpath.scanner.Location;
-import org.avaje.classpath.scanner.MatchClass;
+import org.avaje.classpath.scanner.ClassFilter;
 import org.avaje.classpath.scanner.Resource;
-import org.avaje.classpath.scanner.ResourceMatch;
+import org.avaje.classpath.scanner.FilterResource;
 import org.avaje.classpath.scanner.internal.SomeTestInterface;
 import org.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv2UrlResolver;
 import org.avaje.classpath.scanner.test.dummy.DummyAbstractJdbcMigration;
@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.mockito.MockSettings;
 import org.mockito.internal.creation.MockSettingsImpl;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +46,7 @@ public class ClassPathScannerSmallTest {
   @Test
   public void scanForResources() throws Exception {
 
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:migration/sql"), ResourceMatch.byPrefixSuffix("V", ".sql"));
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:migration/sql"), FilterResource.byPrefixSuffix("V", ".sql"));
 
     assertEquals(4, resources.size());
 
@@ -60,7 +59,7 @@ public class ClassPathScannerSmallTest {
   @Test
   public void scanForResourcesRoot() throws Exception {
 
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:"), ResourceMatch.byPrefixSuffix("CheckValidate", ".sql"));
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:"), FilterResource.byPrefixSuffix("CheckValidate", ".sql"));
 
     //changed to 2 as new test cases are added for SybaseASE
     assertEquals(2, resources.size());
@@ -76,7 +75,7 @@ public class ClassPathScannerSmallTest {
   @Test
   public void scanForResourcesSomewhereInSubDir() throws Exception {
 
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:migration"), ResourceMatch.byPrefixSuffix("CheckValidate", ".sql"));
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:migration"), FilterResource.byPrefixSuffix("CheckValidate", ".sql"));
 
     //changed to 2 as new test cases are added for SybaseASE
     assertEquals(2, resources.size());
@@ -91,7 +90,7 @@ public class ClassPathScannerSmallTest {
 
   @Test
   public void scanForResourcesDefaultPackage() throws Exception {
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:"), ResourceMatch.byPrefixSuffix("logback", ""));
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:"), FilterResource.byPrefixSuffix("logback", ""));
 
     assertEquals(1, resources.size());
 
@@ -100,7 +99,7 @@ public class ClassPathScannerSmallTest {
 
   @Test
   public void scanForResourcesSubDirectory() throws Exception {
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:migration/subdir"), ResourceMatch.byPrefixSuffix("V", ".sql"));
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:migration/subdir"), FilterResource.byPrefixSuffix("V", ".sql"));
 
     assertEquals(3, resources.size());
 
@@ -111,13 +110,13 @@ public class ClassPathScannerSmallTest {
 
   @Test
   public void scanForResourcesInvalidPath() throws Exception {
-    classPathScanner.scanForResources(new Location("classpath:invalid"), ResourceMatch.byPrefixSuffix("V", ".sql"));
+    classPathScanner.scanForResources(new Location("classpath:invalid"), FilterResource.byPrefixSuffix("V", ".sql"));
   }
 
   @Test
   public void scanForResourcesSplitDirectory() throws Exception {
     List<Resource> resources =
-        classPathScanner.scanForResources(new Location("classpath:migration/dbsupport"), ResourceMatch.byPrefixSuffix("create", ".sql"));
+        classPathScanner.scanForResources(new Location("classpath:migration/dbsupport"), FilterResource.byPrefixSuffix("create", ".sql"));
 
     assertTrue("len:" + resources.size(), resources.size() > 3);
     assertEquals("migration/dbsupport/db2/createDatabase.sql", resources.get(0).getLocation());
@@ -125,7 +124,7 @@ public class ClassPathScannerSmallTest {
 
   @Test
   public void scanForResourcesJarFile() throws Exception {
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:org/junit"), ResourceMatch.byPrefixSuffix("Af", ".class"));
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:org/junit"), FilterResource.byPrefixSuffix("Af", ".class"));
 
     assertEquals(2, resources.size());
 
@@ -136,7 +135,7 @@ public class ClassPathScannerSmallTest {
   @Test
   public void scanForClasses() throws Exception {
 
-    MatchClass predicate = getMatchClass(SomeTestInterface.class);
+    ClassFilter predicate = getMatchClass(SomeTestInterface.class);
 
     List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/avaje/classpath/scanner/test/dummy"), predicate);
 
@@ -147,8 +146,8 @@ public class ClassPathScannerSmallTest {
     assertEquals(V4__DummyExtendedAbstractJdbcMigration.class, classes.get(1));
   }
 
-  private MatchClass getMatchClass(final Class<?> someAssignable) {
-    return new MatchClass() {
+  private ClassFilter getMatchClass(final Class<?> someAssignable) {
+    return new ClassFilter() {
       @Override
       public boolean isMatch(Class<?> cls) {
         return someAssignable.isAssignableFrom(cls);
@@ -174,7 +173,7 @@ public class ClassPathScannerSmallTest {
 
   @Test
   public void scanForSpecificPathWhenMultiplePathsExist() throws Exception {
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:net/sourceforge/jtds/jdbc"), ResourceMatch.byPrefixSuffix("create", ".class"));
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:net/sourceforge/jtds/jdbc"), FilterResource.byPrefixSuffix("create", ".class"));
     for (Resource resource : resources) {
       assertFalse(resource.getLocation(), resource.getLocation().startsWith("net/sourceforge/jtds/jdbcx/"));
     }

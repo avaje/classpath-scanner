@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.avaje.classpath.scanner.internal.scanner;
+package org.avaje.classpath.scanner.internal;
 
 import org.avaje.classpath.scanner.Location;
-import org.avaje.classpath.scanner.MatchClass;
-import org.avaje.classpath.scanner.MatchResource;
+import org.avaje.classpath.scanner.ClassFilter;
+import org.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.Resource;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public interface ResourceAndClassScanner {
    * @param predicate The predicate used to match the resource names.
    * @return The resources that were found.
    */
-  List<Resource> scanForResources(Location location, MatchResource predicate);
+  List<Resource> scanForResources(Location location, ResourceFilter predicate);
 
   /**
    * Scans the classpath for concrete classes under the specified package implementing this interface.
@@ -45,5 +45,5 @@ public interface ResourceAndClassScanner {
    * @param predicate The predicate used to match against scanned classes.
    * @return The non-abstract classes that were found.
    */
-  List<Class<?>> scanForClasses(Location location, MatchClass predicate);
+  List<Class<?>> scanForClasses(Location location, ClassFilter predicate);
 }

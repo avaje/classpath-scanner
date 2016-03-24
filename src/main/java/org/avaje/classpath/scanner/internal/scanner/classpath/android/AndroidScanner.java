@@ -20,11 +20,11 @@ import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
 import org.avaje.classpath.scanner.ClassPathScanException;
 import org.avaje.classpath.scanner.Location;
-import org.avaje.classpath.scanner.MatchClass;
-import org.avaje.classpath.scanner.MatchResource;
+import org.avaje.classpath.scanner.ClassFilter;
+import org.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.Resource;
 import org.avaje.classpath.scanner.andriod.ContextHolder;
-import org.avaje.classpath.scanner.internal.scanner.ResourceAndClassScanner;
+import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +53,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
     }
   }
 
-  public List<Resource> scanForResources(Location location, MatchResource predicate) {
+  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
 
     try {
       List<Resource> resources = new ArrayList<Resource>();
@@ -71,7 +71,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
     }
   }
 
-  public List<Class<?>> scanForClasses(Location location, MatchClass predicate) {
+  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
 
     try {
 

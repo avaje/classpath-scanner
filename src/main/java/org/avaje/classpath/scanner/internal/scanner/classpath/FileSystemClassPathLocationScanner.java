@@ -66,15 +66,22 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
     File[] files = folder.listFiles();
     for (File file : files) {
       if (file.canRead()) {
+        String resourcePath = toResourceNameOnClasspath(classPathRootOnDisk, file);
         if (file.isDirectory()) {
-          resourceNames.addAll(findResourceNamesFromFileSystem(classPathRootOnDisk, scanRootLocation, file));
+          if (!ignorePath(resourcePath)) {
+            resourceNames.addAll(findResourceNamesFromFileSystem(classPathRootOnDisk, scanRootLocation, file));
+          }
         } else {
-          resourceNames.add(toResourceNameOnClasspath(classPathRootOnDisk, file));
+          resourceNames.add(resourcePath);
         }
       }
     }
 
     return resourceNames;
+  }
+
+  private boolean ignorePath(String resourcePath) {
+    return resourcePath.startsWith("org/avaje/classpath") || resourcePath.startsWith("com/avaje/ebean");
   }
 
   /**

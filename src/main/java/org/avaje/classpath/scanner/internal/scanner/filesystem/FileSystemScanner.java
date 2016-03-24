@@ -17,7 +17,7 @@ package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import org.avaje.classpath.scanner.ClassPathScanException;
 import org.avaje.classpath.scanner.Location;
-import org.avaje.classpath.scanner.MatchResource;
+import org.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class FileSystemScanner {
    * @param predicate The predicate used to match resources.
    * @return The resources that were found.
    */
-  public List<Resource> scanForResources(Location location, MatchResource predicate) {
+  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
 
     String path = location.getPath();
 
@@ -74,7 +74,7 @@ public class FileSystemScanner {
    * Finds the resources names present at this location and below on the classpath starting with this prefix and
    * ending with this suffix.
    */
-  private Set<String> findResourceNames(String path, MatchResource predicate) throws IOException {
+  private Set<String> findResourceNames(String path, ResourceFilter predicate) throws IOException {
     Set<String> resourceNames = findResourceNamesFromFileSystem(path, new File(path));
     return filterResourceNames(resourceNames, predicate);
   }
@@ -111,7 +111,7 @@ public class FileSystemScanner {
   /**
    * Filters this list of resource names to only include the ones whose filename matches this prefix and this suffix.
    */
-  private Set<String> filterResourceNames(Set<String> resourceNames, MatchResource predicate) {
+  private Set<String> filterResourceNames(Set<String> resourceNames, ResourceFilter predicate) {
     Set<String> filteredResourceNames = new TreeSet<String>();
     for (String resourceName : resourceNames) {
       if (predicate.isMatch(resourceName)) {

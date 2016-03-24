@@ -120,7 +120,6 @@ public final class Location implements Comparable<Location> {
     if (o == null || getClass() != o.getClass()) return false;
 
     Location location = (Location) o;
-
     return getDescriptor().equals(location.getDescriptor());
   }
 
@@ -129,9 +128,6 @@ public final class Location implements Comparable<Location> {
     return getDescriptor().hashCode();
   }
 
-  /**
-   * @return The complete location descriptor.
-   */
   @Override
   public String toString() {
     return getDescriptor();

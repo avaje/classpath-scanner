@@ -16,7 +16,7 @@
 package org.avaje.classpath.scanner;
 
 import org.avaje.classpath.scanner.internal.EnvironmentDetection;
-import org.avaje.classpath.scanner.internal.scanner.ResourceAndClassScanner;
+import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.avaje.classpath.scanner.internal.scanner.classpath.ClassPathScanner;
 import org.avaje.classpath.scanner.internal.scanner.classpath.android.AndroidScanner;
 import org.avaje.classpath.scanner.internal.scanner.filesystem.FileSystemScanner;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Scanner for Resources and Classes.
  */
-public class Scanner {
+public class Scanner implements org.avaje.classpath.scanner.ClassPathScanner {
 
   private final ResourceAndClassScanner resourceAndClassScanner;
 
@@ -51,7 +51,7 @@ public class Scanner {
    * @param predicate The predicate used to match resource names.
    * @return The resources that were found.
    */
-  public List<Resource> scanForResources(Location location, MatchResource predicate) {
+  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
 
     if (location.isFileSystem()) {
       return fileSystemScanner.scanForResources(location, predicate);
@@ -70,7 +70,8 @@ public class Scanner {
    * @param predicate The predicate used to match resource names.
    * @return The resources that were found.
    */
-  public List<Resource> scanForResources(String location, MatchResource predicate) {
+  @Override
+  public List<Resource> scanForResources(String location, ResourceFilter predicate) {
     return scanForResources(new Location(location), predicate);
   }
 
@@ -80,9 +81,8 @@ public class Scanner {
    * @param location  The package in the classpath to start scanning. Subpackages are also scanned.
    * @param predicate The predicate used to match scanned classes.
    * @return The classes found matching the predicate
-   * @throws Exception when the location could not be scanned.
    */
-  public List<Class<?>> scanForClasses(Location location, MatchClass predicate) {
+  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
     return resourceAndClassScanner.scanForClasses(location, predicate);
   }
 
@@ -92,9 +92,9 @@ public class Scanner {
    * @param location  The package in the classpath to start scanning. Subpackages are also scanned.
    * @param predicate The predicate used to match scanned classes.
    * @return The classes found matching the predicate
-   * @throws Exception when the location could not be scanned.
    */
-  public List<Class<?>> scanForClasses(String location, MatchClass predicate) {
+  @Override
+  public List<Class<?>> scanForClasses(String location, ClassFilter predicate) {
     return scanForClasses(new Location(location), predicate);
   }
 

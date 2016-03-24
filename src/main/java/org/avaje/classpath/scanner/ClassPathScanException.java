@@ -1,7 +1,5 @@
 package org.avaje.classpath.scanner;
 
-import java.io.IOException;
-
 /**
  * Exceptions throw when scanning the classpath.
  */
