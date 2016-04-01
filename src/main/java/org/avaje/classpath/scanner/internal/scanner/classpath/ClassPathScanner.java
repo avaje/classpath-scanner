@@ -99,11 +99,11 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
 
     try {
-      LOG.debug("scanning for classes at {}", location);
-
       List<Class<?>> classes = new ArrayList<Class<?>>();
 
       Set<String> resourceNames = findResourceNames(location, FilterResource.bySuffix(".class"));
+
+      LOG.debug("scanning for classes at {} found {} resources to check", location, resourceNames.size());
       for (String resourceName : resourceNames) {
         String className = toClassName(resourceName);
         Class<?> clazz = classLoader.loadClass(className);
