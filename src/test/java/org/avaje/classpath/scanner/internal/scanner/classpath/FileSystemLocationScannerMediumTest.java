@@ -16,13 +16,13 @@
 package org.avaje.classpath.scanner.internal.scanner.classpath;
 
 import org.avaje.classpath.scanner.internal.UrlUtils;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.net.URL;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Test for FileSystemClassPathLocationScanner.

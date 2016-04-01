@@ -17,7 +17,8 @@ package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import org.avaje.classpath.scanner.Location;
 import org.avaje.classpath.scanner.FilterResource;
-import org.junit.Test;
+import org.testng.annotations.Test;
+
 
 /**
  * Test for FileSystemScanner.

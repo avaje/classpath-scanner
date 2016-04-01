@@ -1,13 +1,12 @@
 package org.avaje.classpath.scanner;
 
 import org.example.thing.SomeTestInterface;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 public class ScannerTest {
 

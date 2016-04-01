@@ -23,7 +23,7 @@ import org.example.thing.SomeTestInterface;
 import org.example.dummy.DummyAbstractJdbcMigration;
 import org.example.dummy.V4__DummyExtendedAbstractJdbcMigration;
 import org.example.dummy.Version3dot5;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.mockito.MockSettings;
 import org.mockito.internal.creation.MockSettingsImpl;
 
@@ -31,9 +31,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Tests for ClassPathScanner.
@@ -117,18 +117,19 @@ public class ClassPathScannerSmallTest {
     List<Resource> resources =
         classPathScanner.scanForResources(new Location("classpath:migration/dbsupport"), FilterResource.byPrefixSuffix("create", ".sql"));
 
-    assertTrue("len:" + resources.size(), resources.size() > 3);
+    assertTrue(resources.size() > 3);
     assertEquals("migration/dbsupport/db2/createDatabase.sql", resources.get(0).getLocation());
   }
 
   @Test
   public void scanForResourcesJarFile() throws Exception {
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:org/junit"), FilterResource.byPrefixSuffix("Af", ".class"));
 
-    assertEquals(2, resources.size());
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:org/testng"), FilterResource.byPrefixSuffix("Af", ".class"));
+    assertEquals(resources.size(), 6);
 
-    assertEquals("org/junit/After.class", resources.get(0).getLocation());
-    assertEquals("org/junit/AfterClass.class", resources.get(1).getLocation());
+    assertEquals("org/testng/annotations/AfterClass.class", resources.get(0).getLocation());
+    assertEquals("org/testng/annotations/AfterGroups.class", resources.get(1).getLocation());
+    assertEquals("org/testng/annotations/AfterMethod.class", resources.get(2).getLocation());
   }
 
   @Test
@@ -174,7 +175,7 @@ public class ClassPathScannerSmallTest {
   public void scanForSpecificPathWhenMultiplePathsExist() throws Exception {
     List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:net/sourceforge/jtds/jdbc"), FilterResource.byPrefixSuffix("create", ".class"));
     for (Resource resource : resources) {
-      assertFalse(resource.getLocation(), resource.getLocation().startsWith("net/sourceforge/jtds/jdbcx/"));
+      assertFalse(resource.getLocation().startsWith("net/sourceforge/jtds/jdbcx/"));
     }
   }
 }
