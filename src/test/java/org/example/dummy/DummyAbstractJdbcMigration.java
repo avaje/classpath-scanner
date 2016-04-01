@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.avaje.classpath.scanner.test.dummy;
+package org.example.dummy;
+
+import org.example.thing.SomeTestInterface;
+import org.example.thing.SomeTestInterface;
 
 import java.sql.Connection;
 
 /**
- * Test class that extends and abstract class instead of implementing JdbcMigration directly.
+ * Test for abstract class support.
  */
-public class V4__DummyExtendedAbstractJdbcMigration extends DummyAbstractJdbcMigration {
-    @Override
-    public void doMigrate(Connection connection) throws Exception {
-        // DO nothing
+public abstract class DummyAbstractJdbcMigration implements SomeTestInterface {
+    public final void migrate(Connection connection) throws Exception {
+        doMigrate(connection);
     }
+
+    public abstract void doMigrate(Connection connection) throws Exception;
 }

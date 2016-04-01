@@ -1,6 +1,6 @@
 package org.avaje.classpath.scanner;
 
-import org.avaje.classpath.scanner.internal.SomeTestInterface;
+import org.example.thing.SomeTestInterface;
 import org.junit.Test;
 
 import java.util.List;
@@ -44,14 +44,14 @@ public class ScannerTest {
     };
 
     Scanner scanner = new Scanner(classLoader);
-    List<Class<?>> classes = scanner.scanForClasses(new Location("org/avaje/classpath/scanner/test/dummy"), predicate);
+    List<Class<?>> classes = scanner.scanForClasses(new Location("org/example/dummy"), predicate);
 
     assertEquals(3, classes.size());
 
-    List<Class<?>> classes2 = scanner.scanForClasses("org/avaje/classpath/scanner/test/dummy", predicate);
+    List<Class<?>> classes2 = scanner.scanForClasses("org/example/dummy", predicate);
     assertEquals(classes.size(), classes2.size());
 
-    List<Class<?>> classes3 = scanner.scanForClasses("org.avaje.classpath.scanner.test.dummy", predicate);
+    List<Class<?>> classes3 = scanner.scanForClasses("org.example.dummy", predicate);
     assertEquals(classes.size(), classes3.size());
 
   }

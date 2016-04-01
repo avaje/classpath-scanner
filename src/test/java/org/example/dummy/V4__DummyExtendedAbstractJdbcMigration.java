@@ -13,29 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.avaje.classpath.scanner.test.dummy;
-
-import org.avaje.classpath.scanner.internal.SomeTestInterface;
+package org.example.dummy;
 
 import java.sql.Connection;
 
 /**
- * Test migration.
+ * Test class that extends and abstract class instead of implementing JdbcMigration directly.
  */
-public class Version3dot5 extends DummyAbstractJdbcMigration implements SomeTestInterface {//}, MigrationChecksumProvider {
+public class V4__DummyExtendedAbstractJdbcMigration extends DummyAbstractJdbcMigration {
+    @Override
     public void doMigrate(Connection connection) throws Exception {
-        //Do nothing.
-    }
-
-    public Integer getChecksum() {
-        return 35;
-    }
-
-//    public MigrationVersion getVersion() {
-//        return MigrationVersion.fromVersion("3.5");
-//    }
-
-    public String getDescription() {
-        return "Three Dot Five";
+        // DO nothing
     }
 }

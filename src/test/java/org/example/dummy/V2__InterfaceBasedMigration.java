@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.avaje.classpath.scanner.test.dummy;
-
-import org.avaje.classpath.scanner.internal.SomeTestInterface;
+package org.example.dummy;
 
 public class V2__InterfaceBasedMigration {
 

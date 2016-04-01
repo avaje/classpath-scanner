@@ -19,11 +19,10 @@ import org.avaje.classpath.scanner.Location;
 import org.avaje.classpath.scanner.ClassFilter;
 import org.avaje.classpath.scanner.Resource;
 import org.avaje.classpath.scanner.FilterResource;
-import org.avaje.classpath.scanner.internal.SomeTestInterface;
-import org.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv2UrlResolver;
-import org.avaje.classpath.scanner.test.dummy.DummyAbstractJdbcMigration;
-import org.avaje.classpath.scanner.test.dummy.V4__DummyExtendedAbstractJdbcMigration;
-import org.avaje.classpath.scanner.test.dummy.Version3dot5;
+import org.example.thing.SomeTestInterface;
+import org.example.dummy.DummyAbstractJdbcMigration;
+import org.example.dummy.V4__DummyExtendedAbstractJdbcMigration;
+import org.example.dummy.Version3dot5;
 import org.junit.Test;
 import org.mockito.MockSettings;
 import org.mockito.internal.creation.MockSettingsImpl;
@@ -137,7 +136,7 @@ public class ClassPathScannerSmallTest {
 
     ClassFilter predicate = getMatchClass(SomeTestInterface.class);
 
-    List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/avaje/classpath/scanner/test/dummy"), predicate);
+    List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/example/dummy"), predicate);
 
     assertEquals(3, classes.size());
 
@@ -158,10 +157,10 @@ public class ClassPathScannerSmallTest {
   @Test
   public void scanForClassesSplitPackage() throws Exception {
 
-    List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/avaje/classpath/scanner"), getMatchClass(UrlResolver.class));
+    ClassFilter predicate = getMatchClass(SomeTestInterface.class);
+    List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/example"), predicate);
 
-    assertTrue("classes.length:" + classes.size(), classes.size() >= 2);
-    assertTrue(classes.contains(JBossVFSv2UrlResolver.class));
+    assertEquals(4, classes.size());
   }
 
   @Test
