@@ -106,10 +106,16 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       LOG.debug("scanning for classes at {} found {} resources to check", location, resourceNames.size());
       for (String resourceName : resourceNames) {
         String className = toClassName(resourceName);
-        Class<?> clazz = classLoader.loadClass(className);
-        if (predicate.isMatch(clazz)) {
-          classes.add(clazz);
-          LOG.trace("... matched class: {} ", className);
+        try {
+          Class<?> clazz = classLoader.loadClass(className);
+          if (predicate.isMatch(clazz)) {
+            classes.add(clazz);
+            LOG.trace("... matched class: {} ", className);
+          }
+        } catch (NoClassDefFoundError err) {
+          // This hapens on class that inherits from an other class which are no longer in the classpath
+          // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided" 
+          LOG.debug("... class {} could not be loaded and will be ignored.",  className, err);	
         }
       }
 
