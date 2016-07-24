@@ -15,15 +15,15 @@
  */
 package org.avaje.classpath.scanner.internal.scanner.classpath;
 
-import org.avaje.classpath.scanner.ClassPathScanException;
-import org.avaje.classpath.scanner.Location;
 import org.avaje.classpath.scanner.ClassFilter;
-import org.avaje.classpath.scanner.ResourceFilter;
-import org.avaje.classpath.scanner.Resource;
+import org.avaje.classpath.scanner.ClassPathScanException;
 import org.avaje.classpath.scanner.FilterResource;
+import org.avaje.classpath.scanner.Location;
+import org.avaje.classpath.scanner.Resource;
+import org.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.internal.EnvironmentDetection;
-import org.avaje.classpath.scanner.internal.UrlUtils;
 import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
+import org.avaje.classpath.scanner.internal.UrlUtils;
 import org.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv2UrlResolver;
 import org.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv3ClassPathLocationScanner;
 import org.slf4j.Logger;
@@ -113,9 +113,9 @@ public class ClassPathScanner implements ResourceAndClassScanner {
             LOG.trace("... matched class: {} ", className);
           }
         } catch (NoClassDefFoundError err) {
-          // This hapens on class that inherits from an other class which are no longer in the classpath
+          // This happens on class that inherits from an other class which are no longer in the classpath
           // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided" 
-          LOG.debug("... class {} could not be loaded and will be ignored.",  className, err);	
+          LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
         }
       }
 
