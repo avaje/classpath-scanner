@@ -81,7 +81,7 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
   }
 
   private boolean ignorePath(String resourcePath) {
-    return resourcePath.startsWith("org/avaje/classpath") || resourcePath.startsWith("com/avaje/ebean");
+    return resourcePath.startsWith("org/avaje/classpath") || resourcePath.startsWith("io/ebean");
   }
 
   /**
