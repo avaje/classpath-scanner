@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.avaje.classpath.scanner;
+package org.avaje.classpath.scanner.core;
 
+import org.avaje.classpath.scanner.ClassFilter;
+import org.avaje.classpath.scanner.Resource;
+import org.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.internal.EnvironmentDetection;
 import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.avaje.classpath.scanner.internal.scanner.classpath.ClassPathScanner;

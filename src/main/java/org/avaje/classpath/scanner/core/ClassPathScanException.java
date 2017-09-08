@@ -1,4 +1,4 @@
-package org.avaje.classpath.scanner;
+package org.avaje.classpath.scanner.core;
 
 /**
  * Exceptions throw when scanning the classpath.

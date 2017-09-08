@@ -1,6 +1,7 @@
 package org.avaje.classpath.scanner;
 
 
+import org.avaje.classpath.scanner.core.Location;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;

@@ -1,5 +1,7 @@
 package org.avaje.classpath.scanner;
 
+import org.avaje.classpath.scanner.core.Location;
+import org.avaje.classpath.scanner.core.Scanner;
 import org.example.thing.SomeTestInterface;
 import org.testng.annotations.Test;
 

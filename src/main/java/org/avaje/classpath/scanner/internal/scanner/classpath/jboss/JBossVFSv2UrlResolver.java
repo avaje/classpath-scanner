@@ -15,7 +15,7 @@
  */
 package org.avaje.classpath.scanner.internal.scanner.classpath.jboss;
 
-import org.avaje.classpath.scanner.ClassPathScanException;
+import org.avaje.classpath.scanner.core.ClassPathScanException;
 import org.avaje.classpath.scanner.internal.scanner.classpath.UrlResolver;
 
 import java.io.IOException;

@@ -18,7 +18,7 @@ package org.avaje.classpath.scanner.internal.scanner.classpath.android;
 import android.content.res.AssetManager;
 import org.avaje.classpath.scanner.internal.FileCopyUtils;
 import org.avaje.classpath.scanner.Resource;
-import org.avaje.classpath.scanner.ClassPathScanException;
+import org.avaje.classpath.scanner.core.ClassPathScanException;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
