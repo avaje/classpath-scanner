@@ -19,6 +19,12 @@ import org.avaje.classpath.scanner.core.Location;
 import org.avaje.classpath.scanner.FilterResource;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
+
+import static org.testng.Assert.assertTrue;
+
 
 /**
  * Test for FileSystemScanner.
@@ -27,5 +33,12 @@ public class FileSystemScannerMediumTest {
     @Test
     public void nonExistentDirectory() throws Exception {
         new FileSystemScanner().scanForResources(new Location("filesystem:/invalid-path"), FilterResource.byPrefixSuffix("",""));
+    }
+
+    @Test
+    public void emptyDirectory() throws IOException {
+        File emptyDir = new File("./test/resources/migration/junk-empty");
+        Set<String> resources = new FileSystemScanner().findResourceNamesFromFileSystem("junk-empty", emptyDir);
+        assertTrue(resources.isEmpty());
     }
 }

@@ -19,10 +19,12 @@ import org.avaje.classpath.scanner.internal.UrlUtils;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Test for FileSystemClassPathLocationScanner.
@@ -44,6 +46,17 @@ public class FileSystemLocationScannerMediumTest {
     assertEquals("sql/V1_2__Populate_table.sql", names[1]);
     assertEquals("sql/V1__First.sql", names[2]);
     assertEquals("sql/V2_0__Add_foreign_key_and_super_mega_humongous_padding_to_exceed_the_maximum_column_length_in_the_metadata_table.sql", names[3]);
+  }
+
+  @Test
+  public void findResourceNamesFromFileSystem_when_emptyDirectory() throws IOException {
+
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+    String path = UrlUtils.toFilePath(classLoader.getResources("migration").nextElement()) + File.separator;
+
+    Set<String> resources = new FileSystemClassPathLocationScanner().findResourceNamesFromFileSystem(path, "junk-empty", new File(path, "junk-empty"));
+    assertTrue(resources.isEmpty());
+
   }
 
   @Test

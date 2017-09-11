@@ -59,20 +59,22 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
     /*private -> for testing*/
   @SuppressWarnings("ConstantConditions")
   Set<String> findResourceNamesFromFileSystem(String classPathRootOnDisk, String scanRootLocation, File folder) throws IOException {
-    LOG.debug("Scanning for resources in path: " + folder.getPath() + " (" + scanRootLocation + ")");
+    LOG.debug("Scanning for resources in path: {} ({})", folder.getPath(), scanRootLocation);
 
     Set<String> resourceNames = new TreeSet<String>();
 
     File[] files = folder.listFiles();
-    for (File file : files) {
-      if (file.canRead()) {
-        String resourcePath = toResourceNameOnClasspath(classPathRootOnDisk, file);
-        if (file.isDirectory()) {
-          if (!ignorePath(resourcePath)) {
-            resourceNames.addAll(findResourceNamesFromFileSystem(classPathRootOnDisk, scanRootLocation, file));
+    if (files != null) {
+      for (File file : files) {
+        if (file.canRead()) {
+          String resourcePath = toResourceNameOnClasspath(classPathRootOnDisk, file);
+          if (file.isDirectory()) {
+            if (!ignorePath(resourcePath)) {
+              resourceNames.addAll(findResourceNamesFromFileSystem(classPathRootOnDisk, scanRootLocation, file));
+            }
+          } else {
+            resourceNames.add(resourcePath);
           }
-        } else {
-          resourceNames.add(resourcePath);
         }
       }
     }
