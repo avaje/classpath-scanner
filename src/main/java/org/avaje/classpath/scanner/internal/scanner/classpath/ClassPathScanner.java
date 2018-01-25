@@ -116,15 +116,17 @@ public class ClassPathScanner implements ResourceAndClassScanner {
           // This happens on class that inherits from an other class which are no longer in the classpath
           // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided" 
           LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
+
+        } catch (ClassNotFoundException err) {
+          // This happens on class that inherits from an other class which are no longer in the classpath
+          // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided"
+          LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
         }
       }
 
       return classes;
 
     } catch (IOException e) {
-      throw new ClassPathScanException(e);
-
-    } catch (ClassNotFoundException e) {
       throw new ClassPathScanException(e);
     }
   }
