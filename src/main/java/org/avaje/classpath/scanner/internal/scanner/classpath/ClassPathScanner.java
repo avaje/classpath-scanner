@@ -1,26 +1,26 @@
-/**
- * Copyright 2010-2016 Boxfuse GmbH
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+  Copyright 2010-2016 Boxfuse GmbH
+  <p/>
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  <p/>
+  http://www.apache.org/licenses/LICENSE-2.0
+  <p/>
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
  */
 package org.avaje.classpath.scanner.internal.scanner.classpath;
 
 import org.avaje.classpath.scanner.ClassFilter;
-import org.avaje.classpath.scanner.core.ClassPathScanException;
 import org.avaje.classpath.scanner.FilterResource;
-import org.avaje.classpath.scanner.core.Location;
 import org.avaje.classpath.scanner.Resource;
 import org.avaje.classpath.scanner.ResourceFilter;
+import org.avaje.classpath.scanner.core.ClassPathScanException;
+import org.avaje.classpath.scanner.core.Location;
 import org.avaje.classpath.scanner.internal.EnvironmentDetection;
 import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.avaje.classpath.scanner.internal.UrlUtils;
@@ -55,17 +55,17 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   /**
    * Cache location lookups.
    */
-  private final Map<Location, List<URL>> locationUrlCache = new HashMap<Location, List<URL>>();
+  private final Map<Location, List<URL>> locationUrlCache = new HashMap<>();
 
   /**
    * Cache location scanners.
    */
-  private final Map<String, ClassPathLocationScanner> locationScannerCache = new HashMap<String, ClassPathLocationScanner>();
+  private final Map<String, ClassPathLocationScanner> locationScannerCache = new HashMap<>();
 
   /**
    * Cache resource names.
    */
-  private final Map<ClassPathLocationScanner, Map<URL, Set<String>>> resourceNameCache = new HashMap<ClassPathLocationScanner, Map<URL, Set<String>>>();
+  private final Map<ClassPathLocationScanner, Map<URL, Set<String>>> resourceNameCache = new HashMap<>();
 
   /**
    * Creates a new Classpath scanner.
@@ -80,7 +80,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   public List<Resource> scanForResources(Location path, ResourceFilter predicate) {
 
     try {
-      List<Resource> resources = new ArrayList<Resource>();
+      List<Resource> resources = new ArrayList<>();
 
       Set<String> resourceNames = findResourceNames(path, predicate);
       for (String resourceName : resourceNames) {
@@ -99,7 +99,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
 
     try {
-      List<Class<?>> classes = new ArrayList<Class<?>>();
+      List<Class<?>> classes = new ArrayList<>();
 
       Set<String> resourceNames = findResourceNames(location, FilterResource.bySuffix(".class"));
 
@@ -112,15 +112,11 @@ public class ClassPathScanner implements ResourceAndClassScanner {
             classes.add(clazz);
             LOG.trace("... matched class: {} ", className);
           }
-        } catch (NoClassDefFoundError err) {
-          // This happens on class that inherits from an other class which are no longer in the classpath
-          // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided" 
-          LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
-
-        } catch (ClassNotFoundException err) {
+        } catch (NoClassDefFoundError | ClassNotFoundException err) {
           // This happens on class that inherits from an other class which are no longer in the classpath
           // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided"
           LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
+
         }
       }
 
@@ -148,7 +144,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    */
   private Set<String> findResourceNames(Location location, ResourceFilter predicate) throws IOException {
 
-    Set<String> resourceNames = new TreeSet<String>();
+    Set<String> resourceNames = new TreeSet<>();
 
     List<URL> locationsUrls = getLocationUrlsForPath(location);
     for (URL locationUrl : locationsUrls) {
@@ -189,7 +185,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
 
     LOG.debug("determining location urls for {} using ClassLoader {} ...", location, classLoader);
 
-    List<URL> locationUrls = new ArrayList<URL>();
+    List<URL> locationUrls = new ArrayList<>();
 
     if (classLoader.getClass().getName().startsWith("com.ibm")) {
       // WebSphere
@@ -245,7 +241,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     if ("file".equals(protocol)) {
       FileSystemClassPathLocationScanner locationScanner = new FileSystemClassPathLocationScanner();
       locationScannerCache.put(protocol, locationScanner);
-      resourceNameCache.put(locationScanner, new HashMap<URL, Set<String>>());
+      resourceNameCache.put(locationScanner, new HashMap<>());
       return locationScanner;
     }
 
@@ -255,7 +251,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
         ) {
       JarFileClassPathLocationScanner locationScanner = new JarFileClassPathLocationScanner();
       locationScannerCache.put(protocol, locationScanner);
-      resourceNameCache.put(locationScanner, new HashMap<URL, Set<String>>());
+      resourceNameCache.put(locationScanner, new HashMap<>());
       return locationScanner;
     }
 
@@ -263,7 +259,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     if (featureDetector.isJBossVFSv3() && "vfs".equals(protocol)) {
       JBossVFSv3ClassPathLocationScanner locationScanner = new JBossVFSv3ClassPathLocationScanner();
       locationScannerCache.put(protocol, locationScanner);
-      resourceNameCache.put(locationScanner, new HashMap<URL, Set<String>>());
+      resourceNameCache.put(locationScanner, new HashMap<>());
       return locationScanner;
     }
     if (featureDetector.isOsgi() && (
@@ -272,7 +268,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
         ) {
       OsgiClassPathLocationScanner locationScanner = new OsgiClassPathLocationScanner();
       locationScannerCache.put(protocol, locationScanner);
-      resourceNameCache.put(locationScanner, new HashMap<URL, Set<String>>());
+      resourceNameCache.put(locationScanner, new HashMap<>());
       return locationScanner;
     }
 
@@ -284,7 +280,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    */
   private Set<String> filterResourceNames(Set<String> resourceNames, ResourceFilter predicate) {
 
-    Set<String> filteredResourceNames = new TreeSet<String>();
+    Set<String> filteredResourceNames = new TreeSet<>();
     for (String resourceName : resourceNames) {
       if (predicate.isMatch(resourceName)) {
         filteredResourceNames.add(resourceName);

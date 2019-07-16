@@ -1,29 +1,29 @@
-/**
- * Copyright 2010-2016 Boxfuse GmbH
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+  Copyright 2010-2016 Boxfuse GmbH
+  <p/>
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  <p/>
+  http://www.apache.org/licenses/LICENSE-2.0
+  <p/>
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
  */
 package org.avaje.classpath.scanner.internal.scanner.classpath.android;
 
 import android.content.Context;
 import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
+import org.avaje.classpath.scanner.ClassFilter;
+import org.avaje.classpath.scanner.Resource;
+import org.avaje.classpath.scanner.ResourceFilter;
+import org.avaje.classpath.scanner.andriod.ContextHolder;
 import org.avaje.classpath.scanner.core.ClassPathScanException;
 import org.avaje.classpath.scanner.core.Location;
-import org.avaje.classpath.scanner.ClassFilter;
-import org.avaje.classpath.scanner.ResourceFilter;
-import org.avaje.classpath.scanner.Resource;
-import org.avaje.classpath.scanner.andriod.ContextHolder;
 import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +56,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
   public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
 
     try {
-      List<Resource> resources = new ArrayList<Resource>();
+      List<Resource> resources = new ArrayList<>();
       String path = location.getPath();
       for (String asset : context.getAssets().list(path)) {
         if (predicate.isMatch(asset)) {
@@ -77,7 +77,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
 
       String pkg = location.getPath().replace("/", ".");
 
-      List<Class<?>> classes = new ArrayList<Class<?>>();
+      List<Class<?>> classes = new ArrayList<>();
 
       DexFile dex = new DexFile(context.getApplicationInfo().sourceDir);
       Enumeration<String> entries = dex.entries();
@@ -93,11 +93,9 @@ public class AndroidScanner implements ResourceAndClassScanner {
       }
       return classes;
 
-    } catch (IOException e) {
+    } catch (IOException | ClassNotFoundException e) {
       throw new ClassPathScanException(e);
 
-    } catch (ClassNotFoundException e) {
-      throw new ClassPathScanException(e);
     }
   }
 }
