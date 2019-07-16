@@ -1,17 +1,17 @@
-/**
- * Copyright 2010-2016 Boxfuse GmbH
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+  Copyright 2010-2016 Boxfuse GmbH
+  <p/>
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  <p/>
+  http://www.apache.org/licenses/LICENSE-2.0
+  <p/>
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
  */
 package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
@@ -55,7 +55,7 @@ public class FileSystemScanner {
       return Collections.emptyList();
     }
 
-    List<Resource> resources = new ArrayList<Resource>();
+    List<Resource> resources = new ArrayList<>();
 
     try {
       Set<String> resourceNames = findResourceNames(path, predicate);
@@ -65,7 +65,7 @@ public class FileSystemScanner {
       }
       return resources;
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw new ClassPathScanException(e);
     }
   }
@@ -74,7 +74,7 @@ public class FileSystemScanner {
    * Finds the resources names present at this location and below on the classpath starting with this prefix and
    * ending with this suffix.
    */
-  private Set<String> findResourceNames(String path, ResourceFilter predicate) throws IOException {
+  private Set<String> findResourceNames(String path, ResourceFilter predicate) {
     Set<String> resourceNames = findResourceNamesFromFileSystem(path, new File(path));
     return filterResourceNames(resourceNames, predicate);
   }
@@ -85,14 +85,12 @@ public class FileSystemScanner {
    * @param scanRootLocation The root location of the scan on disk.
    * @param folder           The folder to look for resources under on disk.
    * @return The resource names;
-   * @throws IOException when the folder could not be read.
    */
-  @SuppressWarnings("ConstantConditions")
-  Set<String> findResourceNamesFromFileSystem(String scanRootLocation, File folder) throws IOException {
+  Set<String> findResourceNamesFromFileSystem(String scanRootLocation, File folder) {
 
     LOG.debug("scanning in path: {} ({})", folder.getPath(), scanRootLocation);
 
-    Set<String> resourceNames = new TreeSet<String>();
+    Set<String> resourceNames = new TreeSet<>();
 
     File[] files = folder.listFiles();
     if (files != null) {
@@ -114,7 +112,7 @@ public class FileSystemScanner {
    * Filters this list of resource names to only include the ones whose filename matches this prefix and this suffix.
    */
   private Set<String> filterResourceNames(Set<String> resourceNames, ResourceFilter predicate) {
-    Set<String> filteredResourceNames = new TreeSet<String>();
+    Set<String> filteredResourceNames = new TreeSet<>();
     for (String resourceName : resourceNames) {
       if (predicate.isMatch(resourceName)) {
         filteredResourceNames.add(resourceName);

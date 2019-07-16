@@ -15,7 +15,6 @@
  */
 package org.avaje.classpath.scanner.internal.scanner.classpath;
 
-import java.io.IOException;
 import java.net.URL;
 
 /**

@@ -18,7 +18,6 @@ package org.avaje.classpath.scanner.internal.scanner.classpath;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;

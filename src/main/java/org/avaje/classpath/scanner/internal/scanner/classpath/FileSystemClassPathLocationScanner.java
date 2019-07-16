@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
@@ -31,7 +30,7 @@ import java.util.TreeSet;
 public class FileSystemClassPathLocationScanner implements ClassPathLocationScanner {
   private static final Logger LOG = LoggerFactory.getLogger(FileSystemClassPathLocationScanner.class);
 
-  public Set<String> findResourceNames(String location, URL locationUrl) throws IOException {
+  public Set<String> findResourceNames(String location, URL locationUrl) {
     String filePath = UrlUtils.toFilePath(locationUrl);
     File folder = new File(filePath);
     if (!folder.isDirectory()) {
@@ -54,10 +53,9 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
    * @param scanRootLocation    The root location of the scan on the classpath, without leading or trailing slashes.
    * @param folder              The folder to look for resources under on disk.
    * @return The resource names;
-   * @throws IOException when the folder could not be read.
    */
     /*private -> for testing*/
-  Set<String> findResourceNamesFromFileSystem(String classPathRootOnDisk, String scanRootLocation, File folder) throws IOException {
+  Set<String> findResourceNamesFromFileSystem(String classPathRootOnDisk, String scanRootLocation, File folder) {
     LOG.debug("Scanning for resources in path: {} ({})", folder.getPath(), scanRootLocation);
 
     Set<String> resourceNames = new TreeSet<>();

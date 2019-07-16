@@ -44,7 +44,7 @@ public class JBossVFSv3ClassPathLocationScanner implements ClassPathLocationScan
 
     Set<String> resourceNames = new TreeSet<>();
 
-    List<VirtualFile> files = VFS.getChild(filePath).getChildrenRecursively(file -> file.isFile());
+    List<VirtualFile> files = VFS.getChild(filePath).getChildrenRecursively(VirtualFile::isFile);
     for (VirtualFile file : files) {
       resourceNames.add(file.getPathName().substring(classPathRootOnDisk.length()));
     }
