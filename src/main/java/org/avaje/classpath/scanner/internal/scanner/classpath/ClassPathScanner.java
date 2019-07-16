@@ -191,7 +191,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       // WebSphere
       Enumeration<URL> urls = classLoader.getResources(location.toString());
       if (!urls.hasMoreElements()) {
-        LOG.warn("Unable to resolve location " + location);
+        LOG.debug("Unable to resolve location {}", location);
       }
       while (urls.hasMoreElements()) {
         URL url = urls.nextElement();
@@ -200,7 +200,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     } else {
       Enumeration<URL> urls = classLoader.getResources(location.getPath());
       if (!urls.hasMoreElements()) {
-        LOG.warn("Unable to resolve location " + location);
+        LOG.debug("Unable to resolve location {}", location);
       }
 
       while (urls.hasMoreElements()) {

@@ -15,15 +15,14 @@
  */
 package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
+import org.avaje.classpath.scanner.Resource;
+import org.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.core.ClassPathScanException;
 import org.avaje.classpath.scanner.core.Location;
-import org.avaje.classpath.scanner.ResourceFilter;
-import org.avaje.classpath.scanner.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +50,7 @@ public class FileSystemScanner {
 
     File dir = new File(path);
     if (!dir.isDirectory() || !dir.canRead()) {
-      LOG.warn("Unable to resolve location filesystem:" + path);
+      LOG.debug("Unable to resolve location filesystem:{}", path);
       return Collections.emptyList();
     }
 
