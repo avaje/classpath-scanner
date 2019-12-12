@@ -3,7 +3,7 @@
 
   <groupId>io.avaje</groupId>
   <artifactId>classpath-scanner</artifactId>
-  <version>4.2-SNAPSHOT</version>
+  <version>4.2</version>
 
   <parent>
     <groupId>org.avaje</groupId>
@@ -13,7 +13,7 @@
 
   <scm>
     <developerConnection>scm:git:git@github.com:avaje/classpath-scanner.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>classpath-scanner-4.2</tag>
   </scm>
 
   <dependencies>
