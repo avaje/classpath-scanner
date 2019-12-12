@@ -12,7 +12,7 @@
   </parent>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:avaje-common/avaje-classpath-scanner.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:avaje/classpath-scanner.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>classpath-scanner-api</artifactId>
-      <version>4.1-SNAPSHOT</version>
+      <version>4.1</version>
     </dependency>
 
     <dependency>
