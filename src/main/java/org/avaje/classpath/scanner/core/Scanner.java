@@ -15,9 +15,9 @@
  */
 package org.avaje.classpath.scanner.core;
 
-import org.avaje.classpath.scanner.ClassFilter;
-import org.avaje.classpath.scanner.Resource;
-import org.avaje.classpath.scanner.ResourceFilter;
+import io.avaje.classpath.scanner.ClassFilter;
+import io.avaje.classpath.scanner.Resource;
+import io.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.internal.EnvironmentDetection;
 import org.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.avaje.classpath.scanner.internal.scanner.classpath.ClassPathScanner;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Scanner for Resources and Classes.
  */
-public class Scanner implements org.avaje.classpath.scanner.ClassPathScanner {
+public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
 
   private final ResourceAndClassScanner resourceAndClassScanner;
 

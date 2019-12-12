@@ -16,9 +16,9 @@
 package org.avaje.classpath.scanner.internal;
 
 import org.avaje.classpath.scanner.core.Location;
-import org.avaje.classpath.scanner.ClassFilter;
-import org.avaje.classpath.scanner.ResourceFilter;
-import org.avaje.classpath.scanner.Resource;
+import io.avaje.classpath.scanner.ClassFilter;
+import io.avaje.classpath.scanner.ResourceFilter;
+import io.avaje.classpath.scanner.Resource;
 
 import java.util.List;
 

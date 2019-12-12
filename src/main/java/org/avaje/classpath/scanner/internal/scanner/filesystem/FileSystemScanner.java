@@ -15,8 +15,8 @@
  */
 package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
-import org.avaje.classpath.scanner.Resource;
-import org.avaje.classpath.scanner.ResourceFilter;
+import io.avaje.classpath.scanner.Resource;
+import io.avaje.classpath.scanner.ResourceFilter;
 import org.avaje.classpath.scanner.core.ClassPathScanException;
 import org.avaje.classpath.scanner.core.Location;
 import org.slf4j.Logger;

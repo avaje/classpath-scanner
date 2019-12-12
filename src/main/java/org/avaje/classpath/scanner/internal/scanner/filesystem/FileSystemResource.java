@@ -16,7 +16,7 @@
 package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import org.avaje.classpath.scanner.core.ClassPathScanException;
-import org.avaje.classpath.scanner.Resource;
+import io.avaje.classpath.scanner.Resource;
 import org.avaje.classpath.scanner.internal.FileCopyUtils;
 
 import java.io.File;

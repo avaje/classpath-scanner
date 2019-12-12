@@ -16,7 +16,7 @@
 package org.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import org.avaje.classpath.scanner.core.Location;
-import org.avaje.classpath.scanner.FilterResource;
+import io.avaje.classpath.scanner.FilterResource;
 import org.testng.annotations.Test;
 
 import java.io.File;

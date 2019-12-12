@@ -1,5 +1,8 @@
 package org.avaje.classpath.scanner;
 
+import io.avaje.classpath.scanner.ClassFilter;
+import io.avaje.classpath.scanner.FilterResource;
+import io.avaje.classpath.scanner.Resource;
 import org.avaje.classpath.scanner.core.Location;
 import org.avaje.classpath.scanner.core.Scanner;
 import org.example.thing.SomeTestInterface;
@@ -37,12 +40,7 @@ public class ScannerTest {
   public void testScanForClasses() throws Exception {
 
 
-    ClassFilter predicate = new ClassFilter() {
-      @Override
-      public boolean isMatch(Class<?> cls) {
-        return SomeTestInterface.class.isAssignableFrom(cls);
-      }
-    };
+    ClassFilter predicate = SomeTestInterface.class::isAssignableFrom;
 
     Scanner scanner = new Scanner(classLoader);
     List<Class<?>> classes = scanner.scanForClasses(new Location("org/example/dummy"), predicate);

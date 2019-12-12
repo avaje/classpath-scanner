@@ -1,7 +1,7 @@
 package org.avaje.classpath.scanner.core;
 
-import org.avaje.classpath.scanner.ClassPathScanner;
-import org.avaje.classpath.scanner.ClassPathScannerFactory;
+import io.avaje.classpath.scanner.ClassPathScanner;
+import io.avaje.classpath.scanner.ClassPathScannerFactory;
 
 /**
  * Service implementation of ClassPathScannerFactory.

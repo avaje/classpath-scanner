@@ -16,9 +16,9 @@
 package org.avaje.classpath.scanner.internal.scanner.classpath;
 
 import org.avaje.classpath.scanner.core.Location;
-import org.avaje.classpath.scanner.ClassFilter;
-import org.avaje.classpath.scanner.Resource;
-import org.avaje.classpath.scanner.FilterResource;
+import io.avaje.classpath.scanner.ClassFilter;
+import io.avaje.classpath.scanner.Resource;
+import io.avaje.classpath.scanner.FilterResource;
 import org.example.thing.SomeTestInterface;
 import org.example.dummy.DummyAbstractJdbcMigration;
 import org.example.dummy.V4__DummyExtendedAbstractJdbcMigration;
