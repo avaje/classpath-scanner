@@ -5,9 +5,9 @@ import java.util.List;
 /**
  * Scans the class path for resources or classes.
  */
-public interface ClassPathScanner {
+public interface Scanner {
 
-  static ClassPathScanner of(ClassLoader classLoader) {
+  static Scanner of(ClassLoader classLoader) {
     return new DScanner(classLoader);
   }
 

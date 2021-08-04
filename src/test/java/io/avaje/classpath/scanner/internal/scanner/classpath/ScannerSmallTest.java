@@ -38,7 +38,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * Tests for ClassPathScanner.
  */
-public class ClassPathScannerSmallTest {
+public class ScannerSmallTest {
 
   private ClassPathScanner classPathScanner = new ClassPathScanner(Thread.currentThread().getContextClassLoader());
 

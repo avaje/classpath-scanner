@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Scanner for Resources and Classes.
  */
-class DScanner implements io.avaje.classpath.scanner.ClassPathScanner {
+class DScanner implements Scanner {
 
   private final ResourceAndClassScanner resourceAndClassScanner;
 
