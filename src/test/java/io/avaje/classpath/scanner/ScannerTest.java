@@ -17,7 +17,7 @@ public class ScannerTest {
   public void testScanForResources() {
 
     DScanner scanner = new DScanner(classLoader);
-    List<Resource> resources = scanner.scanForResources(new Location("scantest"), FilterResource.bySuffix(".txt"));
+    List<Resource> resources = scanner.scanForResources("scantest", FilterResource.bySuffix(".txt"));
 
     assertEquals(1, resources.size());
     Resource resource = resources.get(0);

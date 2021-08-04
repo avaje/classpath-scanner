@@ -53,27 +53,13 @@ class DScanner implements Scanner {
    * @param predicate The predicate used to match resource names.
    * @return The resources that were found.
    */
-  public List<Resource> scanForResources(Location location, Predicate<String> predicate) {
-    if (location.isFileSystem()) {
-      return fileSystemScanner.scanForResources(location, predicate);
-    }
-    return resourceAndClassScanner.scanForResources(location, predicate);
-  }
-
-  /**
-   * Scans this location for resources matching the given predicate.
-   * <p>
-   * The location can have a prefix of <code>filesystem:</code> or <code>classpath:</code> to determine
-   * how to scan. If no prefix is used then classpath scan is the default.
-   * </p>
-   *
-   * @param location  The location to start searching. Subdirectories are also searched.
-   * @param predicate The predicate used to match resource names.
-   * @return The resources that were found.
-   */
   @Override
   public List<Resource> scanForResources(String location, Predicate<String> predicate) {
-    return scanForResources(new Location(location), predicate);
+    Location loc = new Location(location);
+    if (loc.isFileSystem()) {
+      return fileSystemScanner.scanForResources(loc, predicate);
+    }
+    return resourceAndClassScanner.scanForResources(loc, predicate);
   }
 
 }
