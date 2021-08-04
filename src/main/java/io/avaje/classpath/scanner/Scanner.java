@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * Scans the class path for resources or classes.
+ * Scans the class path for resources.
  */
 public interface Scanner {
 
@@ -13,12 +13,12 @@ public interface Scanner {
   }
 
   /**
-   * Scan for file resources using the starting location and filter.
+   * Scan for resources using the starting location and filter.
    *
    * @param location The path location from which the scan will start.
    * @param filter   The filter used to match resources.
    * @return The list of resources found that match our filter.
    */
-  List<Resource> scanForResources(String location, Predicate<String> filter);
+  List<Resource> scan(String location, Predicate<String> filter);
 
 }

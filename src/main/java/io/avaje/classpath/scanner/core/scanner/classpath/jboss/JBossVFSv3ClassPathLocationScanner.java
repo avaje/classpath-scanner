@@ -32,7 +32,7 @@ import java.util.TreeSet;
  * ClassPathLocationScanner for JBoss VFS v3.
  */
 public class JBossVFSv3ClassPathLocationScanner implements ClassPathLocationScanner {
-  private static final Logger LOG = LoggerFactory.getLogger(JBossVFSv3ClassPathLocationScanner.class);
+  private static final Logger log = LoggerFactory.getLogger(JBossVFSv3ClassPathLocationScanner.class);
 
   public Set<String> findResourceNames(String location, URL locationUrl) throws IOException {
     String filePath = UrlUtils.toFilePath(locationUrl);
@@ -40,7 +40,7 @@ public class JBossVFSv3ClassPathLocationScanner implements ClassPathLocationScan
     if (!classPathRootOnDisk.endsWith("/")) {
       classPathRootOnDisk = classPathRootOnDisk + "/";
     }
-    LOG.debug("Scanning starting at classpath root on JBoss VFS: " + classPathRootOnDisk);
+    log.debug("Scanning starting at classpath root on JBoss VFS: " + classPathRootOnDisk);
 
     Set<String> resourceNames = new TreeSet<>();
 

@@ -29,7 +29,7 @@ import java.util.function.Predicate;
  */
 public class FileSystemScanner {
 
-  private static final Logger LOG = LoggerFactory.getLogger(FileSystemScanner.class);
+  private static final Logger log = LoggerFactory.getLogger(FileSystemScanner.class);
 
   /**
    * Scans the FileSystem for resources under the specified location, starting with the specified prefix and ending with
@@ -43,7 +43,7 @@ public class FileSystemScanner {
     String path = location.path();
     File dir = new File(path);
     if (!dir.isDirectory() || !dir.canRead()) {
-      LOG.debug("Unable to resolve location filesystem:{}", path);
+      log.debug("Unable to resolve location filesystem:{}", path);
       return Collections.emptyList();
     }
 
@@ -51,7 +51,7 @@ public class FileSystemScanner {
     Set<String> resourceNames = findResourceNames(path, predicate);
     for (String resourceName : resourceNames) {
       resources.add(new FileSystemResource(resourceName));
-      LOG.debug("Found filesystem resource: " + resourceName);
+      log.debug("Found filesystem resource: " + resourceName);
     }
     return resources;
   }
@@ -74,7 +74,7 @@ public class FileSystemScanner {
    */
   Set<String> findResourceNamesFromFileSystem(String scanRootLocation, File folder) {
 
-    LOG.debug("scanning in path: {} ({})", folder.getPath(), scanRootLocation);
+    log.debug("scanning in path: {} ({})", folder.getPath(), scanRootLocation);
 
     Set<String> resourceNames = new TreeSet<>();
 

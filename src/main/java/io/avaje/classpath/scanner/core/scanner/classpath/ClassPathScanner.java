@@ -37,7 +37,7 @@ import java.util.function.Predicate;
  */
 public class ClassPathScanner implements ResourceAndClassScanner {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ClassPathScanner.class);
+  private static final Logger log = LoggerFactory.getLogger(ClassPathScanner.class);
 
   /**
    * The ClassLoader for loading migrations on the classpath.
@@ -76,7 +76,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       Set<String> resourceNames = findResourceNames(path, predicate);
       for (String resourceName : resourceNames) {
         resources.add(new ClassPathResource(resourceName, classLoader));
-        LOG.trace("... found resource: {}", resourceName);
+        log.trace("... found resource: {}", resourceName);
       }
       return resources;
     } catch (IOException e) {
@@ -92,7 +92,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     Set<String> resourceNames = new TreeSet<>();
     List<URL> locationsUrls = getLocationUrlsForPath(location);
     for (URL locationUrl : locationsUrls) {
-      LOG.debug("scanning URL: {}", locationUrl.toExternalForm());
+      log.debug("scanning URL: {}", locationUrl.toExternalForm());
 
       UrlResolver urlResolver = createUrlResolver(locationUrl.getProtocol());
       URL resolvedUrl = urlResolver.toStandardJavaUrl(locationUrl);
@@ -101,7 +101,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       ClassPathLocationScanner classPathLocationScanner = createLocationScanner(protocol);
       if (classPathLocationScanner == null) {
         String scanRoot = UrlUtils.toFilePath(resolvedUrl);
-        LOG.warn("Unable to scan location: {} (unsupported protocol: {})", scanRoot, protocol);
+        log.warn("Unable to scan location: {} (unsupported protocol: {})", scanRoot, protocol);
       } else {
         Set<String> names = resourceNameCache.get(classPathLocationScanner).get(resolvedUrl);
         if (names == null) {
@@ -126,14 +126,14 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       return locationUrlCache.get(location);
     }
 
-    LOG.debug("determining location urls for {} using ClassLoader {} ...", location, classLoader);
+    log.debug("determining location urls for {} using ClassLoader {} ...", location, classLoader);
     List<URL> locationUrls = new ArrayList<>();
 
     if (classLoader.getClass().getName().startsWith("com.ibm")) {
       // WebSphere
       Enumeration<URL> urls = classLoader.getResources(location.toString());
       if (!urls.hasMoreElements()) {
-        LOG.debug("Unable to resolve location {}", location);
+        log.debug("Unable to resolve location {}", location);
       }
       while (urls.hasMoreElements()) {
         URL url = urls.nextElement();
@@ -142,7 +142,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     } else {
       Enumeration<URL> urls = classLoader.getResources(location.path());
       if (!urls.hasMoreElements()) {
-        LOG.debug("Unable to resolve location {}", location);
+        log.debug("Unable to resolve location {}", location);
       }
       while (urls.hasMoreElements()) {
         locationUrls.add(urls.nextElement());

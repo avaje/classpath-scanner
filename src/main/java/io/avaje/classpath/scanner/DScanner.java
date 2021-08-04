@@ -54,7 +54,7 @@ class DScanner implements Scanner {
    * @return The resources that were found.
    */
   @Override
-  public List<Resource> scanForResources(String location, Predicate<String> predicate) {
+  public List<Resource> scan(String location, Predicate<String> predicate) {
     Location loc = new Location(location);
     if (loc.isFileSystem()) {
       return fileSystemScanner.scanForResources(loc, predicate);

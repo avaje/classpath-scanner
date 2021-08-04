@@ -28,13 +28,13 @@ import java.util.TreeSet;
  * ClassPathLocationScanner for the file system.
  */
 public class FileSystemClassPathLocationScanner implements ClassPathLocationScanner {
-  private static final Logger LOG = LoggerFactory.getLogger(FileSystemClassPathLocationScanner.class);
+  private static final Logger log = LoggerFactory.getLogger(FileSystemClassPathLocationScanner.class);
 
   public Set<String> findResourceNames(String location, URL locationUrl) {
     String filePath = UrlUtils.toFilePath(locationUrl);
     File folder = new File(filePath);
     if (!folder.isDirectory()) {
-      LOG.debug("Skipping path as it is not a directory: " + filePath);
+      log.debug("Skipping path as it is not a directory: " + filePath);
       return new TreeSet<>();
     }
 
@@ -42,7 +42,7 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
     if (!classPathRootOnDisk.endsWith(File.separator)) {
       classPathRootOnDisk = classPathRootOnDisk + File.separator;
     }
-    LOG.debug("Scanning starting at classpath root in filesystem: " + classPathRootOnDisk);
+    log.debug("Scanning starting at classpath root in filesystem: " + classPathRootOnDisk);
     return findResourceNamesFromFileSystem(classPathRootOnDisk, location, folder);
   }
 
@@ -56,7 +56,7 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
    */
     /*private -> for testing*/
   Set<String> findResourceNamesFromFileSystem(String classPathRootOnDisk, String scanRootLocation, File folder) {
-    LOG.debug("Scanning for resources in path: {} ({})", folder.getPath(), scanRootLocation);
+    log.debug("Scanning for resources in path: {} ({})", folder.getPath(), scanRootLocation);
 
     Set<String> resourceNames = new TreeSet<>();
 

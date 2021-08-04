@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class EnvironmentDetection {
 
-  private static final Logger LOG = LoggerFactory.getLogger(EnvironmentDetection.class);
+  private static final Logger log = LoggerFactory.getLogger(EnvironmentDetection.class);
 
   /**
    * The ClassLoader to use.
@@ -62,7 +62,7 @@ public class EnvironmentDetection {
   public boolean isJBossVFSv2() {
     if (jbossVFSv2 == null) {
       jbossVFSv2 = isPresent("org.jboss.virtual.VFS", classLoader);
-      LOG.trace("... JBoss VFS v2 available: {}", jbossVFSv2);
+      log.trace("... JBoss VFS v2 available: {}", jbossVFSv2);
     }
 
     return jbossVFSv2;
@@ -76,7 +76,7 @@ public class EnvironmentDetection {
   public boolean isJBossVFSv3() {
     if (jbossVFSv3 == null) {
       jbossVFSv3 = isPresent("org.jboss.vfs.VFS", classLoader);
-      LOG.trace("... JBoss VFS v3 available: {}", jbossVFSv3);
+      log.trace("... JBoss VFS v3 available: {}", jbossVFSv3);
     }
 
     return jbossVFSv3;
@@ -90,7 +90,7 @@ public class EnvironmentDetection {
   public boolean isOsgi() {
     if (osgi == null) {
       osgi = isPresent("org.osgi.framework.Bundle", classLoader);
-      LOG.trace("... OSGi framework available: {}", osgi);
+      log.trace("... OSGi framework available: {}", osgi);
     }
 
     return osgi;
