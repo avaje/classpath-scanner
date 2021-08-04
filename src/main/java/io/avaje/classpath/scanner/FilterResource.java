@@ -1,5 +1,7 @@
 package io.avaje.classpath.scanner;
 
+import java.util.function.Predicate;
+
 /**
  * Some common resource matching predicates.
  */
@@ -8,28 +10,28 @@ public class FilterResource {
   /**
    * Return a resource matcher that matches by both prefix and suffix.
    */
-  public static ResourceFilter byPrefixSuffix(String prefix, String suffix) {
+  public static Predicate<String> byPrefixSuffix(String prefix, String suffix) {
     return new ByPrefixSuffix(prefix, suffix);
   }
 
   /**
    * Return a resource matcher that matches by suffix.
    */
-  public static ResourceFilter bySuffix(String suffix) {
+  public static Predicate<String> bySuffix(String suffix) {
     return new BySuffix(suffix);
   }
 
   /**
    * Return a resource matcher that matches by prefix.
    */
-  public static ResourceFilter byPrefix(String prefix) {
+  public static Predicate<String> byPrefix(String prefix) {
     return new ByPrefix(prefix);
   }
 
   private FilterResource() {
   }
 
-  private static class ByPrefixSuffix implements ResourceFilter {
+  private static class ByPrefixSuffix implements Predicate<String> {
 
     private final String prefix;
     private final String suffix;
@@ -40,14 +42,14 @@ public class FilterResource {
     }
 
     @Override
-    public boolean isMatch(String resourceName) {
+    public boolean test(String resourceName) {
       // resources always use '/' as separator
       String fileName = resourceName.substring(resourceName.lastIndexOf('/') + 1);
       return fileName.startsWith(prefix) && fileName.endsWith(suffix);
     }
   }
 
-  private static class BySuffix implements ResourceFilter {
+  private static class BySuffix implements Predicate<String> {
 
     private final String suffix;
 
@@ -56,12 +58,12 @@ public class FilterResource {
     }
 
     @Override
-    public boolean isMatch(String resourceName) {
+    public boolean test(String resourceName) {
       return resourceName.endsWith(suffix);
     }
   }
 
-  private static class ByPrefix implements ResourceFilter {
+  private static class ByPrefix implements Predicate<String> {
 
     private final String prefix;
 
@@ -70,7 +72,7 @@ public class FilterResource {
     }
 
     @Override
-    public boolean isMatch(String resourceName) {
+    public boolean test(String resourceName) {
       return resourceName.startsWith(prefix);
     }
   }

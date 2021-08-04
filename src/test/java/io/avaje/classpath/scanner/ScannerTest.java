@@ -1,7 +1,6 @@
 package io.avaje.classpath.scanner;
 
 import io.avaje.classpath.scanner.core.Location;
-import org.example.thing.SomeTestInterface;
 import org.testng.annotations.Test;
 
 import java.nio.charset.StandardCharsets;
@@ -22,13 +21,13 @@ public class ScannerTest {
 
     assertEquals(1, resources.size());
     Resource resource = resources.get(0);
-    assertEquals("one.txt", resource.getFilename());
-    assertNotNull(resource.getLocation());
+    assertEquals("one.txt", resource.fileName());
+    assertNotNull(resource.location());
     assertEquals("Hello", resource.loadAsString(StandardCharsets.UTF_8));
 
     resources = scanner.scanForResources("scantest", FilterResource.bySuffix(".txt"));
     assertEquals(1, resources.size());
-    assertEquals("one.txt", resources.get(0).getFilename());
+    assertEquals("one.txt", resources.get(0).fileName());
   }
 
 }

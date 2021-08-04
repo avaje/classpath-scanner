@@ -43,23 +43,23 @@ class AndroidResource implements Resource {
 
   @Override
   public String toString() {
-    return getLocation();
+    return location();
   }
 
   @Override
-  public String getLocation() {
+  public String location() {
     return path + "/" + name;
   }
 
   @Override
-  public String getFilename() {
+  public String fileName() {
     return name;
   }
 
   @Override
   public List<String> loadAsLines(Charset charset) {
     try {
-      final InputStream is = assetManager.open(getLocation());
+      final InputStream is = assetManager.open(location());
       return FileCopyUtils.readLines(is, charset);
     } catch (IOException e) {
       throw new UncheckedIOException(e);
@@ -69,9 +69,9 @@ class AndroidResource implements Resource {
   @Override
   public String loadAsString(Charset charset) {
     try {
-      return FileCopyUtils.copyToString(new InputStreamReader(assetManager.open(getLocation()), charset));
+      return FileCopyUtils.copyToString(new InputStreamReader(assetManager.open(location()), charset));
     } catch (IOException e) {
-      throw new UncheckedIOException("Unable to load asset: " + getLocation(), e);
+      throw new UncheckedIOException("Unable to load asset: " + location(), e);
     }
   }
 

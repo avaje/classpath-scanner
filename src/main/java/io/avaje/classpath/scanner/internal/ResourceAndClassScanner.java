@@ -15,12 +15,11 @@
  */
 package io.avaje.classpath.scanner.internal;
 
-import io.avaje.classpath.scanner.core.Location;
-import io.avaje.classpath.scanner.ClassFilter;
-import io.avaje.classpath.scanner.ResourceFilter;
 import io.avaje.classpath.scanner.Resource;
+import io.avaje.classpath.scanner.core.Location;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Scanner for both resources and classes.
@@ -34,6 +33,6 @@ public interface ResourceAndClassScanner {
    * @param predicate The predicate used to match the resource names.
    * @return The resources that were found.
    */
-  List<Resource> scanForResources(Location location, ResourceFilter predicate);
+  List<Resource> scanForResources(Location location, Predicate<String> predicate);
 
 }

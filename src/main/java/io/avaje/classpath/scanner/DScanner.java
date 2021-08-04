@@ -23,6 +23,7 @@ import io.avaje.classpath.scanner.internal.scanner.classpath.android.AndroidScan
 import io.avaje.classpath.scanner.internal.scanner.filesystem.FileSystemScanner;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Scanner for Resources and Classes.
@@ -35,7 +36,7 @@ class DScanner implements Scanner {
 
   DScanner(ClassLoader classLoader) {
     if (EnvironmentDetection.isAndroid()) {
-      resourceAndClassScanner = new AndroidScanner(classLoader);
+      resourceAndClassScanner = new AndroidScanner();
     } else {
       resourceAndClassScanner = new ClassPathScanner(classLoader);
     }
@@ -52,7 +53,7 @@ class DScanner implements Scanner {
    * @param predicate The predicate used to match resource names.
    * @return The resources that were found.
    */
-  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
+  public List<Resource> scanForResources(Location location, Predicate<String> predicate) {
     if (location.isFileSystem()) {
       return fileSystemScanner.scanForResources(location, predicate);
     }
@@ -71,7 +72,7 @@ class DScanner implements Scanner {
    * @return The resources that were found.
    */
   @Override
-  public List<Resource> scanForResources(String location, ResourceFilter predicate) {
+  public List<Resource> scanForResources(String location, Predicate<String> predicate) {
     return scanForResources(new Location(location), predicate);
   }
 

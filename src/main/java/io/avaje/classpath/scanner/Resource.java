@@ -26,7 +26,12 @@ public interface Resource {
   /**
    * Return the location of the resource on the classpath (path and filename).
    */
-  String getLocation();
+  String location();
+
+  /**
+   * Return the filename of this resource, without the path.
+   */
+  String fileName();
 
   /**
    * Return the content as UTF8 encoded lines.
@@ -41,8 +46,4 @@ public interface Resource {
    */
   String loadAsString(Charset charset);
 
-  /**
-   * Return the filename of this resource, without the path.
-   */
-  String getFilename();
 }

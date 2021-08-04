@@ -49,7 +49,7 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
    * Return The filename of this resource, without the path.
    */
   @Override
-  public String getFilename() {
+  public String fileName() {
     return location.getName();
   }
 
@@ -57,7 +57,7 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
    * Return the location of the resource on the classpath.
    */
   @Override
-  public String getLocation() {
+  public String location() {
     return location.getPath().replace('\\','/');
   }
 

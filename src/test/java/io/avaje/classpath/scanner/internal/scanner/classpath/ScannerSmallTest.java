@@ -16,16 +16,9 @@
 package io.avaje.classpath.scanner.internal.scanner.classpath;
 
 import io.avaje.classpath.scanner.core.Location;
-import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.FilterResource;
-import org.example.thing.SomeTestInterface;
-import org.example.dummy.DummyAbstractJdbcMigration;
-import org.example.dummy.V4__DummyExtendedAbstractJdbcMigration;
-import org.example.dummy.Version3dot5;
 import org.testng.annotations.Test;
-import org.mockito.MockSettings;
-import org.mockito.internal.creation.MockSettingsImpl;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,10 +42,10 @@ public class ScannerSmallTest {
 
     assertEquals(4, resources.size());
 
-    assertEquals("migration/sql/V1.1__View.sql", resources.get(0).getLocation());
-    assertEquals("migration/sql/V1_2__Populate_table.sql", resources.get(1).getLocation());
-    assertEquals("migration/sql/V1__First.sql", resources.get(2).getLocation());
-    assertEquals("migration/sql/V2_0__Add_foreign_key_and_super_mega_humongous_padding_to_exceed_the_maximum_column_length_in_the_metadata_table.sql", resources.get(3).getLocation());
+    assertEquals("migration/sql/V1.1__View.sql", resources.get(0).location());
+    assertEquals("migration/sql/V1_2__Populate_table.sql", resources.get(1).location());
+    assertEquals("migration/sql/V1__First.sql", resources.get(2).location());
+    assertEquals("migration/sql/V2_0__Add_foreign_key_and_super_mega_humongous_padding_to_exceed_the_maximum_column_length_in_the_metadata_table.sql", resources.get(3).location());
   }
 
   @Test
@@ -67,8 +60,8 @@ public class ScannerSmallTest {
     validPaths.add("migration/validate/CheckValidate1__First.sql");
     validPaths.add("migration/dbsupport/sybaseASE/validate/CheckValidate1__First.sql");
 
-    assertEquals(true, validPaths.contains(resources.get(0).getLocation()));
-    assertEquals(true, validPaths.contains(resources.get(1).getLocation()));
+    assertEquals(true, validPaths.contains(resources.get(0).location()));
+    assertEquals(true, validPaths.contains(resources.get(1).location()));
   }
 
   @Test
@@ -83,8 +76,8 @@ public class ScannerSmallTest {
     validPaths.add("migration/validate/CheckValidate1__First.sql");
     validPaths.add("migration/dbsupport/sybaseASE/validate/CheckValidate1__First.sql");
 
-    assertEquals(true, validPaths.contains(resources.get(0).getLocation()));
-    assertEquals(true, validPaths.contains(resources.get(1).getLocation()));
+    assertEquals(true, validPaths.contains(resources.get(0).location()));
+    assertEquals(true, validPaths.contains(resources.get(1).location()));
   }
 
   @Test
@@ -93,7 +86,7 @@ public class ScannerSmallTest {
 
     assertEquals(1, resources.size());
 
-    assertEquals("logback-test.xml", resources.get(0).getLocation());
+    assertEquals("logback-test.xml", resources.get(0).location());
   }
 
   @Test
@@ -102,9 +95,9 @@ public class ScannerSmallTest {
 
     assertEquals(3, resources.size());
 
-    assertEquals("migration/subdir/V1_1__Populate_table.sql", resources.get(0).getLocation());
-    assertEquals("migration/subdir/dir1/V1__First.sql", resources.get(1).getLocation());
-    assertEquals("migration/subdir/dir2/V2_0__Add_foreign_key.sql", resources.get(2).getLocation());
+    assertEquals("migration/subdir/V1_1__Populate_table.sql", resources.get(0).location());
+    assertEquals("migration/subdir/dir1/V1__First.sql", resources.get(1).location());
+    assertEquals("migration/subdir/dir2/V2_0__Add_foreign_key.sql", resources.get(2).location());
   }
 
   @Test
@@ -118,7 +111,7 @@ public class ScannerSmallTest {
         classPathScanner.scanForResources(new Location("classpath:migration/dbsupport"), FilterResource.byPrefixSuffix("create", ".sql"));
 
     assertTrue(resources.size() > 3);
-    assertEquals("migration/dbsupport/db2/createDatabase.sql", resources.get(0).getLocation());
+    assertEquals("migration/dbsupport/db2/createDatabase.sql", resources.get(0).location());
   }
 
   @Test
@@ -127,9 +120,9 @@ public class ScannerSmallTest {
     List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:org/testng"), FilterResource.byPrefixSuffix("Af", ".class"));
     assertEquals(resources.size(), 6);
 
-    assertEquals("org/testng/annotations/AfterClass.class", resources.get(0).getLocation());
-    assertEquals("org/testng/annotations/AfterGroups.class", resources.get(1).getLocation());
-    assertEquals("org/testng/annotations/AfterMethod.class", resources.get(2).getLocation());
+    assertEquals("org/testng/annotations/AfterClass.class", resources.get(0).location());
+    assertEquals("org/testng/annotations/AfterGroups.class", resources.get(1).location());
+    assertEquals("org/testng/annotations/AfterMethod.class", resources.get(2).location());
   }
 
 
@@ -137,7 +130,7 @@ public class ScannerSmallTest {
   public void scanForSpecificPathWhenMultiplePathsExist() throws Exception {
     List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:net/sourceforge/jtds/jdbc"), FilterResource.byPrefixSuffix("create", ".class"));
     for (Resource resource : resources) {
-      assertFalse(resource.getLocation().startsWith("net/sourceforge/jtds/jdbcx/"));
+      assertFalse(resource.location().startsWith("net/sourceforge/jtds/jdbcx/"));
     }
   }
 }

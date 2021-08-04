@@ -16,36 +16,25 @@
 package io.avaje.classpath.scanner.internal.scanner.classpath.android;
 
 import android.content.Context;
-import dalvik.system.DexFile;
-import dalvik.system.PathClassLoader;
-import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.ResourceFilter;
-import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.andriod.ContextHolder;
+import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Class & resource scanner for Android.
  */
 public class AndroidScanner implements ResourceAndClassScanner {
 
-  private static final Logger LOG = LoggerFactory.getLogger(AndroidScanner.class);
-
   private final Context context;
 
-  private final PathClassLoader classLoader;
-
-  public AndroidScanner(ClassLoader classLoader) {
-    this.classLoader = (PathClassLoader) classLoader;
+  public AndroidScanner() {
     context = ContextHolder.getContext();
     if (context == null) {
       throw new IllegalStateException("Unable to create scanner. " +
@@ -53,12 +42,12 @@ public class AndroidScanner implements ResourceAndClassScanner {
     }
   }
 
-  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
+  public List<Resource> scanForResources(Location location, Predicate<String> predicate) {
     try {
       List<Resource> resources = new ArrayList<>();
       String path = location.path();
       for (String asset : context.getAssets().list(path)) {
-        if (predicate.isMatch(asset)) {
+        if (predicate.test(asset)) {
           resources.add(new AndroidResource(context.getAssets(), path, asset));
         }
       }

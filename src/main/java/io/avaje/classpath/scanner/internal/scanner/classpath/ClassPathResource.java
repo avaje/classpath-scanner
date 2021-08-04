@@ -51,12 +51,12 @@ class ClassPathResource implements Comparable<ClassPathResource>, Resource {
     return location;
   }
 
-  public String getFilename() {
+  public String fileName() {
     return location.substring(location.lastIndexOf("/") + 1);
   }
 
   @Override
-  public String getLocation() {
+  public String location() {
     return location;
   }
 
