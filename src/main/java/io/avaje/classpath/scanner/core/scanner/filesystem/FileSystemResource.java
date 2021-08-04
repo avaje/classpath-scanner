@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * A resource on the filesystem.
  */
-class FileSystemResource implements Resource, Comparable<FileSystemResource> {
+class FileSystemResource implements Resource {
   /**
    * The location of the resource on the filesystem.
    */
@@ -88,8 +88,4 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
     }
   }
 
-  @Override
-  public int compareTo(FileSystemResource o) {
-    return location.compareTo(o.location);
-  }
 }

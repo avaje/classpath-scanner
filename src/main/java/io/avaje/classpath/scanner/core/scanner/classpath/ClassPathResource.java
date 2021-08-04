@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * A resource on the classpath.
  */
-class ClassPathResource implements Comparable<ClassPathResource>, Resource {
+class ClassPathResource implements Resource {
   /**
    * The location of the resource on the classpath.
    */
@@ -95,7 +95,4 @@ class ClassPathResource implements Comparable<ClassPathResource>, Resource {
     return location.hashCode();
   }
 
-  public int compareTo(ClassPathResource o) {
-    return location.compareTo(o.location);
-  }
 }
