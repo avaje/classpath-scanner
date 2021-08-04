@@ -32,21 +32,4 @@ public class ScannerTest {
     assertEquals("one.txt", resources.get(0).getFilename());
   }
 
-  @Test
-  public void testScanForClasses() {
-
-    ClassFilter predicate = SomeTestInterface.class::isAssignableFrom;
-
-    DScanner scanner = new DScanner(classLoader);
-    List<Class<?>> classes = scanner.scanForClasses(new Location("org/example/dummy"), predicate);
-
-    assertEquals(3, classes.size());
-
-    List<Class<?>> classes2 = scanner.scanForClasses("org/example/dummy", predicate);
-    assertEquals(classes.size(), classes2.size());
-
-    List<Class<?>> classes3 = scanner.scanForClasses("org.example.dummy", predicate);
-    assertEquals(classes.size(), classes3.size());
-
-  }
 }

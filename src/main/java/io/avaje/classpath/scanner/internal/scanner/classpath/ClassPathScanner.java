@@ -92,46 +92,6 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     }
   }
 
-  @Override
-  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
-    try {
-      List<Class<?>> classes = new ArrayList<>();
-
-      Set<String> resourceNames = findResourceNames(location, FilterResource.bySuffix(".class"));
-
-      LOG.debug("scanning for classes at {} found {} resources to check", location, resourceNames.size());
-      for (String resourceName : resourceNames) {
-        String className = toClassName(resourceName);
-        try {
-          Class<?> clazz = classLoader.loadClass(className);
-          if (predicate.isMatch(clazz)) {
-            classes.add(clazz);
-            LOG.trace("... matched class: {} ", className);
-          }
-        } catch (NoClassDefFoundError | ClassNotFoundException err) {
-          // This happens on class that inherits from an other class which are no longer in the classpath
-          // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided"
-          LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
-        }
-      }
-
-      return classes;
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
-  }
-
-  /**
-   * Converts this resource name to a fully qualified class name.
-   *
-   * @param resourceName The resource name.
-   * @return The class name.
-   */
-  private String toClassName(String resourceName) {
-    String nameWithDots = resourceName.replace("/", ".");
-    return nameWithDots.substring(0, (nameWithDots.length() - ".class".length()));
-  }
-
   /**
    * Finds the resources names present at this location and below on the classpath starting with this prefix and
    * ending with this suffix.

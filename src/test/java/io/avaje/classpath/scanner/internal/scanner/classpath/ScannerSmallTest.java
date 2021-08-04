@@ -132,44 +132,6 @@ public class ScannerSmallTest {
     assertEquals("org/testng/annotations/AfterMethod.class", resources.get(2).getLocation());
   }
 
-  @Test
-  public void scanForClasses() throws Exception {
-
-    ClassFilter predicate = getMatchClass(SomeTestInterface.class);
-
-    List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/example/dummy"), predicate);
-
-    assertEquals(3, classes.size());
-
-    assertEquals(DummyAbstractJdbcMigration.class, classes.get(0));
-    assertEquals(Version3dot5.class, classes.get(2));
-    assertEquals(V4__DummyExtendedAbstractJdbcMigration.class, classes.get(1));
-  }
-
-  private ClassFilter getMatchClass(final Class<?> someAssignable) {
-    return new ClassFilter() {
-      @Override
-      public boolean isMatch(Class<?> cls) {
-        return someAssignable.isAssignableFrom(cls);
-      }
-    };
-  }
-
-  @Test
-  public void scanForClassesSplitPackage() throws Exception {
-
-    ClassFilter predicate = getMatchClass(SomeTestInterface.class);
-    List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/example"), predicate);
-
-    assertEquals(4, classes.size());
-  }
-
-  @Test
-  public void scanForClassesJarFile() throws Exception {
-    List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/mockito/internal/creation"), getMatchClass(MockSettings.class));
-
-    assertTrue(classes.contains(MockSettingsImpl.class));
-  }
 
   @Test
   public void scanForSpecificPathWhenMultiplePathsExist() throws Exception {

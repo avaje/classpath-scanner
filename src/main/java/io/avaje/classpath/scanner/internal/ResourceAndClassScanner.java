@@ -36,14 +36,4 @@ public interface ResourceAndClassScanner {
    */
   List<Resource> scanForResources(Location location, ResourceFilter predicate);
 
-  /**
-   * Scans the classpath for concrete classes under the specified package implementing this interface.
-   * Non-instantiable abstract classes are filtered out.
-   *
-   * @param location  The location (package) in the classpath to start scanning.
-   *                  Subpackages are also scanned.
-   * @param predicate The predicate used to match against scanned classes.
-   * @return The non-abstract classes that were found.
-   */
-  List<Class<?>> scanForClasses(Location location, ClassFilter predicate);
 }

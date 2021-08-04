@@ -75,27 +75,4 @@ class DScanner implements Scanner {
     return scanForResources(new Location(location), predicate);
   }
 
-  /**
-   * Scans the classpath for classes under the specified package matching the given predicate.
-   *
-   * @param location  The package in the classpath to start scanning. Subpackages are also scanned.
-   * @param predicate The predicate used to match scanned classes.
-   * @return The classes found matching the predicate
-   */
-  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
-    return resourceAndClassScanner.scanForClasses(location, predicate);
-  }
-
-  /**
-   * Scans the classpath for classes under the specified package matching the given predicate.
-   *
-   * @param location  The package in the classpath to start scanning. Subpackages are also scanned.
-   * @param predicate The predicate used to match scanned classes.
-   * @return The classes found matching the predicate
-   */
-  @Override
-  public List<Class<?>> scanForClasses(String location, ClassFilter predicate) {
-    return scanForClasses(new Location(location), predicate);
-  }
-
 }

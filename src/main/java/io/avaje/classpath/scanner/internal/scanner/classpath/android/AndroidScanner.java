@@ -68,27 +68,4 @@ public class AndroidScanner implements ResourceAndClassScanner {
     }
   }
 
-  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
-    try {
-      String pkg = location.path().replace("/", ".");
-
-      List<Class<?>> classes = new ArrayList<>();
-
-      DexFile dex = new DexFile(context.getApplicationInfo().sourceDir);
-      Enumeration<String> entries = dex.entries();
-      while (entries.hasMoreElements()) {
-        String className = entries.nextElement();
-        if (className.startsWith(pkg)) {
-          Class<?> clazz = classLoader.loadClass(className);
-          if (predicate.isMatch(clazz)) {
-            classes.add(clazz);
-            LOG.trace("... found class: {}", className);
-          }
-        }
-      }
-      return classes;
-    } catch (IOException | ClassNotFoundException e) {
-      throw new IllegalStateException(e);
-    }
-  }
 }
