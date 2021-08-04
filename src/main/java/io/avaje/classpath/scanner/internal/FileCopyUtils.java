@@ -54,20 +54,6 @@ public class FileCopyUtils {
   }
 
   /**
-   * Copy the contents of the given InputStream into a new byte array.
-   * Closes the stream when done.
-   *
-   * @param in the stream to copy from
-   * @return the new byte array that has been copied to
-   * @throws IOException in case of I/O errors
-   */
-  public static byte[] copyToByteArray(InputStream in) throws IOException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
-    copy(in, out);
-    return out.toByteArray();
-  }
-
-  /**
    * Copy the contents of the given Reader to the given Writer.
    * Closes both when done.
    *
@@ -97,37 +83,6 @@ public class FileCopyUtils {
     }
   }
 
-  /**
-   * Copy the contents of the given InputStream to the given OutputStream.
-   * Closes both streams when done.
-   *
-   * @param in  the stream to copy from
-   * @param out the stream to copy to
-   * @throws IOException in case of I/O errors
-   */
-  private static void copy(InputStream in, OutputStream out) throws IOException {
-    try {
-      int byteCount = 0;
-      byte[] buffer = new byte[4096];
-      int bytesRead;
-      while ((bytesRead = in.read(buffer)) != -1) {
-        out.write(buffer, 0, bytesRead);
-        byteCount += bytesRead;
-      }
-      out.flush();
-    } finally {
-      try {
-        in.close();
-      } catch (IOException ex) {
-        //Ignore
-      }
-      try {
-        out.close();
-      } catch (IOException ex) {
-        //Ignore
-      }
-    }
-  }
 
   public static List<String> readLines(InputStream inputStream, Charset charset) {
     if (inputStream == null) {

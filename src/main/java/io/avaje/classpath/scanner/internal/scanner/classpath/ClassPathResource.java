@@ -102,23 +102,6 @@ class ClassPathResource implements Comparable<ClassPathResource>, Resource {
     }
   }
 
-  @Override
-  public byte[] loadAsBytes() {
-    try {
-      InputStream inputStream = classLoader.getResourceAsStream(location);
-      if (inputStream == null) {
-        throw new IllegalStateException("Unable to obtain inputstream for resource: " + location);
-      }
-      return FileCopyUtils.copyToByteArray(inputStream);
-    } catch (IOException e) {
-      throw new UncheckedIOException("Unable to load resource: " + location, e);
-    }
-  }
-
-  public boolean exists() {
-    return getUrl() != null;
-  }
-
   @SuppressWarnings({"RedundantIfStatement"})
   @Override
   public boolean equals(Object o) {

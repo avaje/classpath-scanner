@@ -27,7 +27,6 @@ public class ScannerTest {
     assertNotNull(resource.getLocationOnDisk());
     assertNotNull(resource.getLocation());
     assertEquals("Hello", resource.loadAsString(StandardCharsets.UTF_8));
-    assertNotNull(resource.loadAsBytes());
 
     resources = scanner.scanForResources("scantest", FilterResource.bySuffix(".txt"));
     assertEquals(1, resources.size());

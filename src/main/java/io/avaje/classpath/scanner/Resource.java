@@ -47,11 +47,6 @@ public interface Resource {
   String loadAsString(Charset charset);
 
   /**
-   * Return the context of this resource as a byte array.
-   */
-  byte[] loadAsBytes();
-
-  /**
    * Return the filename of this resource, without the path.
    */
   String getFilename();

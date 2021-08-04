@@ -80,13 +80,4 @@ class AndroidResource implements Resource {
     }
   }
 
-  @Override
-  public byte[] loadAsBytes() {
-    try {
-      return FileCopyUtils.copyToByteArray(assetManager.open(getLocation()));
-    } catch (IOException e) {
-      throw new UncheckedIOException("Unable to load asset: " + getLocation(), e);
-    }
-  }
-
 }

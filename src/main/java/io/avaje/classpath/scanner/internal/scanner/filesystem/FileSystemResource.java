@@ -98,21 +98,6 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
     }
   }
 
-  /**
-   * Loads this resource as a byte array.
-   *
-   * @return The contents of the resource.
-   */
-  @Override
-  public byte[] loadAsBytes() {
-    try {
-      InputStream inputStream = new FileInputStream(location);
-      return FileCopyUtils.copyToByteArray(inputStream);
-    } catch (IOException e) {
-      throw new UncheckedIOException("Unable to load filesystem resource: " + location.getPath(), e);
-    }
-  }
-
   @Override
   public int compareTo(FileSystemResource o) {
     return location.compareTo(o.location);
