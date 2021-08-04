@@ -1,7 +1,6 @@
 package io.avaje.classpath.scanner;
 
 import io.avaje.classpath.scanner.core.Location;
-import io.avaje.classpath.scanner.core.Scanner;
 import org.example.thing.SomeTestInterface;
 import org.testng.annotations.Test;
 
@@ -18,7 +17,7 @@ public class ScannerTest {
   @Test
   public void testScanForResources() {
 
-    Scanner scanner = new Scanner(classLoader);
+    DScanner scanner = new DScanner(classLoader);
     List<Resource> resources = scanner.scanForResources(new Location("scantest"), FilterResource.bySuffix(".txt"));
 
     assertEquals(1, resources.size());
@@ -38,7 +37,7 @@ public class ScannerTest {
 
     ClassFilter predicate = SomeTestInterface.class::isAssignableFrom;
 
-    Scanner scanner = new Scanner(classLoader);
+    DScanner scanner = new DScanner(classLoader);
     List<Class<?>> classes = scanner.scanForClasses(new Location("org/example/dummy"), predicate);
 
     assertEquals(3, classes.size());

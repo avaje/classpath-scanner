@@ -7,6 +7,10 @@ import java.util.List;
  */
 public interface ClassPathScanner {
 
+  static ClassPathScanner of(ClassLoader classLoader) {
+    return new DScanner(classLoader);
+  }
+
   /**
    * Scan for file resources using the starting location and filter.
    *

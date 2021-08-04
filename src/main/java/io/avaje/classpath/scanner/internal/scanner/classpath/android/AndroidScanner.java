@@ -56,7 +56,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
   public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
     try {
       List<Resource> resources = new ArrayList<>();
-      String path = location.getPath();
+      String path = location.path();
       for (String asset : context.getAssets().list(path)) {
         if (predicate.isMatch(asset)) {
           resources.add(new AndroidResource(context.getAssets(), path, asset));
@@ -70,7 +70,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
 
   public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
     try {
-      String pkg = location.getPath().replace("/", ".");
+      String pkg = location.path().replace("/", ".");
 
       List<Class<?>> classes = new ArrayList<>();
 

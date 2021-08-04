@@ -155,7 +155,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       } else {
         Set<String> names = resourceNameCache.get(classPathLocationScanner).get(resolvedUrl);
         if (names == null) {
-          names = classPathLocationScanner.findResourceNames(location.getPath(), resolvedUrl);
+          names = classPathLocationScanner.findResourceNames(location.path(), resolvedUrl);
           resourceNameCache.get(classPathLocationScanner).put(resolvedUrl, names);
         }
         resourceNames.addAll(names);
@@ -192,7 +192,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
         locationUrls.add(new URL(URLDecoder.decode(url.toExternalForm(), "UTF-8")));
       }
     } else {
-      Enumeration<URL> urls = classLoader.getResources(location.getPath());
+      Enumeration<URL> urls = classLoader.getResources(location.path());
       if (!urls.hasMoreElements()) {
         LOG.debug("Unable to resolve location {}", location);
       }

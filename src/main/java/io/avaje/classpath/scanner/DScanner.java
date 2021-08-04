@@ -13,11 +13,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.core;
+package io.avaje.classpath.scanner;
 
-import io.avaje.classpath.scanner.ClassFilter;
-import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.ResourceFilter;
+import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.internal.EnvironmentDetection;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import io.avaje.classpath.scanner.internal.scanner.classpath.ClassPathScanner;
@@ -29,13 +27,13 @@ import java.util.List;
 /**
  * Scanner for Resources and Classes.
  */
-public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
+class DScanner implements io.avaje.classpath.scanner.ClassPathScanner {
 
   private final ResourceAndClassScanner resourceAndClassScanner;
 
   private final FileSystemScanner fileSystemScanner = new FileSystemScanner();
 
-  public Scanner(ClassLoader classLoader) {
+  DScanner(ClassLoader classLoader) {
     if (EnvironmentDetection.isAndroid()) {
       resourceAndClassScanner = new AndroidScanner(classLoader);
     } else {
@@ -55,7 +53,6 @@ public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
    * @return The resources that were found.
    */
   public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
-
     if (location.isFileSystem()) {
       return fileSystemScanner.scanForResources(location, predicate);
     }

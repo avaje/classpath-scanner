@@ -41,7 +41,7 @@ public class FileSystemScanner {
    */
   public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
 
-    String path = location.getPath();
+    String path = location.path();
 
     File dir = new File(path);
     if (!dir.isDirectory() || !dir.canRead()) {

@@ -89,26 +89,26 @@ public final class Location implements Comparable<Location> {
   /**
    * Return the path part of the location.
    */
-  public String getPath() {
+  public String path() {
     return path;
   }
 
   /**
    * Return the prefix denoting classpath of filesystem.
    */
-  public String getPrefix() {
+  public String prefix() {
     return prefix;
   }
 
   /**
    * Return the complete location descriptor.
    */
-  public String getDescriptor() {
+  public String descriptor() {
     return prefix + path;
   }
 
   public int compareTo(Location o) {
-    return getDescriptor().compareTo(o.getDescriptor());
+    return descriptor().compareTo(o.descriptor());
   }
 
   @Override
@@ -117,16 +117,16 @@ public final class Location implements Comparable<Location> {
     if (o == null || getClass() != o.getClass()) return false;
 
     Location location = (Location) o;
-    return getDescriptor().equals(location.getDescriptor());
+    return descriptor().equals(location.descriptor());
   }
 
   @Override
   public int hashCode() {
-    return getDescriptor().hashCode();
+    return descriptor().hashCode();
   }
 
   @Override
   public String toString() {
-    return getDescriptor();
+    return descriptor();
   }
 }
