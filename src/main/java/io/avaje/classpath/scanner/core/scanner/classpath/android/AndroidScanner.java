@@ -17,7 +17,6 @@ package io.avaje.classpath.scanner.core.scanner.classpath.android;
 
 import android.content.Context;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.andriod.ContextHolder;
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.core.ResourceAndClassScanner;
 
@@ -35,7 +34,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
   private final Context context;
 
   public AndroidScanner() {
-    context = ContextHolder.getContext();
+    context = AndriodContextHolder.getContext();
     if (context == null) {
       throw new IllegalStateException("Unable to create scanner. " +
           "Within an activity you can fix this with org.avaje.classpath.scanner.android.ContextHolder.setContext(this);");
