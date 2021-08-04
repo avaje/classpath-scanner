@@ -61,16 +61,6 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
     return location.getPath().replace('\\','/');
   }
 
-  /**
-   * Retrieves the location of this resource on disk.
-   *
-   * @return The location of this resource on disk.
-   */
-  @Override
-  public String getLocationOnDisk() {
-    return location.getAbsolutePath();
-  }
-
   @Override
   public List<String> loadAsLines(Charset charset) {
     try {

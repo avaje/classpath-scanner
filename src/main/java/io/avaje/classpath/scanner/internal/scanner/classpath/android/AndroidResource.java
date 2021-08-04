@@ -57,11 +57,6 @@ class AndroidResource implements Resource {
   }
 
   @Override
-  public String getLocationOnDisk() {
-    return null;
-  }
-
-  @Override
   public List<String> loadAsLines(Charset charset) {
     try {
       final InputStream is = assetManager.open(getLocation());

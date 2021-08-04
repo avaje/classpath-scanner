@@ -19,8 +19,6 @@ import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.internal.FileCopyUtils;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -60,26 +58,6 @@ class ClassPathResource implements Comparable<ClassPathResource>, Resource {
   @Override
   public String getLocation() {
     return location;
-  }
-
-  @Override
-  public String getLocationOnDisk() {
-    URL url = getUrl();
-    if (url == null) {
-      throw new IllegalStateException("Unable to location resource on disk: " + location);
-    }
-    try {
-      return new File(URLDecoder.decode(url.getPath(), "UTF-8")).getAbsolutePath();
-    } catch (UnsupportedEncodingException e) {
-      throw new UncheckedIOException("Unknown encoding: UTF-8", e);
-    }
-  }
-
-  /**
-   * Return The url of this resource.
-   */
-  private URL getUrl() {
-    return classLoader.getResource(location);
   }
 
   @Override

@@ -29,11 +29,6 @@ public interface Resource {
   String getLocation();
 
   /**
-   * Return the location of this resource on disk.
-   */
-  String getLocationOnDisk();
-
-  /**
    * Return the content as UTF8 encoded lines.
    */
   List<String> loadAsLines(Charset charset);
