@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 /**
  * Some common resource matching predicates.
  */
-public class FilterResource {
+public abstract class FilterResource {
 
   /**
    * Return a resource matcher that matches by both prefix and suffix.
@@ -26,9 +26,6 @@ public class FilterResource {
    */
   public static Predicate<String> byPrefix(String prefix) {
     return new ByPrefix(prefix);
-  }
-
-  private FilterResource() {
   }
 
   private static class ByPrefixSuffix implements Predicate<String> {
