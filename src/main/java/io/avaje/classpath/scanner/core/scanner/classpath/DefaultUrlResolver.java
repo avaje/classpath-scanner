@@ -13,19 +13,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.internal.scanner.classpath;
+package io.avaje.classpath.scanner.core.scanner.classpath;
 
 import java.net.URL;
 
 /**
- * Resolves container-specific URLs into standard Java URLs.
+ * Default implementation of UrlResolver.
  */
-public interface UrlResolver {
-  /**
-   * Resolves this container-specific URL into standard Java URL.
-   *
-   * @param url The URL to resolve.
-   * @return The matching standard Java URL.
-   */
-  URL toStandardJavaUrl(URL url);
+public class DefaultUrlResolver implements UrlResolver {
+  public URL toStandardJavaUrl(URL url) {
+    return url;
+  }
 }

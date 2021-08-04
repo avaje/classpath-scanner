@@ -13,11 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.internal.scanner.classpath.android;
+package io.avaje.classpath.scanner.core.scanner.classpath.android;
 
 import android.content.res.AssetManager;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.internal.FileCopyUtils;
+import io.avaje.classpath.scanner.core.FileCopyUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

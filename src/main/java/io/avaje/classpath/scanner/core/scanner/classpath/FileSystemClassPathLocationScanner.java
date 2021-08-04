@@ -13,9 +13,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.internal.scanner.classpath;
+package io.avaje.classpath.scanner.core.scanner.classpath;
 
-import io.avaje.classpath.scanner.internal.UrlUtils;
+import io.avaje.classpath.scanner.core.UrlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

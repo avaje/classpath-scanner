@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.avaje.classpath.scanner.internal.scanner.classpath;
+package io.avaje.classpath.scanner.core.scanner.classpath;
 
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.Resource;

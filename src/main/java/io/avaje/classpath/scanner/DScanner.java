@@ -16,11 +16,11 @@
 package io.avaje.classpath.scanner;
 
 import io.avaje.classpath.scanner.core.Location;
-import io.avaje.classpath.scanner.internal.EnvironmentDetection;
-import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
-import io.avaje.classpath.scanner.internal.scanner.classpath.ClassPathScanner;
-import io.avaje.classpath.scanner.internal.scanner.classpath.android.AndroidScanner;
-import io.avaje.classpath.scanner.internal.scanner.filesystem.FileSystemScanner;
+import io.avaje.classpath.scanner.core.EnvironmentDetection;
+import io.avaje.classpath.scanner.core.ResourceAndClassScanner;
+import io.avaje.classpath.scanner.core.scanner.classpath.ClassPathScanner;
+import io.avaje.classpath.scanner.core.scanner.classpath.android.AndroidScanner;
+import io.avaje.classpath.scanner.core.scanner.filesystem.FileSystemScanner;
 
 import java.util.List;
 import java.util.function.Predicate;

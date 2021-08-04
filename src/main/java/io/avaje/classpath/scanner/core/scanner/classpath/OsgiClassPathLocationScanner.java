@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.internal.scanner.classpath;
+package io.avaje.classpath.scanner.core.scanner.classpath;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;

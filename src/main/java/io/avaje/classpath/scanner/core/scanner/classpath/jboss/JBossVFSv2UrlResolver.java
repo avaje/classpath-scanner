@@ -13,11 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.internal.scanner.classpath.jboss;
+package io.avaje.classpath.scanner.core.scanner.classpath.jboss;
 
-import io.avaje.classpath.scanner.internal.scanner.classpath.UrlResolver;
+import io.avaje.classpath.scanner.core.scanner.classpath.UrlResolver;
 
-import java.io.UncheckedIOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 

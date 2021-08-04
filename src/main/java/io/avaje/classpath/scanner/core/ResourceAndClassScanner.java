@@ -13,10 +13,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.internal;
+package io.avaje.classpath.scanner.core;
 
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.core.Location;
 
 import java.util.List;
 import java.util.function.Predicate;

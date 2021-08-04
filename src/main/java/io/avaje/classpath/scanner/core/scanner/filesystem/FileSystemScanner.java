@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.internal.scanner.filesystem;
+package io.avaje.classpath.scanner.core.scanner.filesystem;
 
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.core.Location;
