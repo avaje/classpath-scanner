@@ -15,13 +15,11 @@
  */
 package io.avaje.classpath.scanner.internal;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Utility class for copying files and their contents. Inspired by Spring's own.
@@ -128,6 +126,24 @@ public class FileCopyUtils {
       } catch (IOException ex) {
         //Ignore
       }
+    }
+  }
+
+  public static List<String> readLines(InputStream inputStream, Charset charset) {
+    if (inputStream == null) {
+      return Collections.emptyList();
+    }
+    try {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, charset));
+      List<String> result = new ArrayList<>();
+
+      String line;
+      while ((line = reader.readLine()) != null) {
+        result.add(line);
+      }
+      return result;
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
   }
 }

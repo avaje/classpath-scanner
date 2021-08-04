@@ -17,16 +17,20 @@ package io.avaje.classpath.scanner.internal.scanner.classpath.android;
 
 import android.content.res.AssetManager;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.core.ClassPathScanException;
 import io.avaje.classpath.scanner.internal.FileCopyUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Resource within an Android App.
  */
 class AndroidResource implements Resource {
+
   private final AssetManager assetManager;
   private final String path;
   private final String name;
@@ -37,6 +41,7 @@ class AndroidResource implements Resource {
     this.name = name;
   }
 
+  @Override
   public String toString() {
     return getLocation();
   }
@@ -47,16 +52,31 @@ class AndroidResource implements Resource {
   }
 
   @Override
+  public String getFilename() {
+    return name;
+  }
+
+  @Override
   public String getLocationOnDisk() {
     return null;
   }
 
   @Override
-  public String loadAsString(String encoding) {
+  public List<String> loadAsLines(Charset charset) {
     try {
-      return FileCopyUtils.copyToString(new InputStreamReader(assetManager.open(getLocation()), encoding));
+      final InputStream is = assetManager.open(getLocation());
+      return FileCopyUtils.readLines(is, charset);
     } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load asset: " + getLocation(), e);
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  @Override
+  public String loadAsString(Charset charset) {
+    try {
+      return FileCopyUtils.copyToString(new InputStreamReader(assetManager.open(getLocation()), charset));
+    } catch (IOException e) {
+      throw new UncheckedIOException("Unable to load asset: " + getLocation(), e);
     }
   }
 
@@ -65,12 +85,8 @@ class AndroidResource implements Resource {
     try {
       return FileCopyUtils.copyToByteArray(assetManager.open(getLocation()));
     } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load asset: " + getLocation(), e);
+      throw new UncheckedIOException("Unable to load asset: " + getLocation(), e);
     }
   }
 
-  @Override
-  public String getFilename() {
-    return name;
-  }
 }

@@ -5,6 +5,7 @@ import io.avaje.classpath.scanner.core.Scanner;
 import org.example.thing.SomeTestInterface;
 import org.testng.annotations.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -12,10 +13,10 @@ import static org.testng.Assert.assertNotNull;
 
 public class ScannerTest {
 
-  private ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+  private final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
   @Test
-  public void testScanForResources() throws Exception {
+  public void testScanForResources() {
 
     Scanner scanner = new Scanner(classLoader);
     List<Resource> resources = scanner.scanForResources(new Location("scantest"), FilterResource.bySuffix(".txt"));
@@ -25,7 +26,7 @@ public class ScannerTest {
     assertEquals("one.txt", resource.getFilename());
     assertNotNull(resource.getLocationOnDisk());
     assertNotNull(resource.getLocation());
-    assertEquals("Hello", resource.loadAsString("UTF-8"));
+    assertEquals("Hello", resource.loadAsString(StandardCharsets.UTF_8));
     assertNotNull(resource.loadAsBytes());
 
     resources = scanner.scanForResources("scantest", FilterResource.bySuffix(".txt"));
@@ -34,8 +35,7 @@ public class ScannerTest {
   }
 
   @Test
-  public void testScanForClasses() throws Exception {
-
+  public void testScanForClasses() {
 
     ClassFilter predicate = SomeTestInterface.class::isAssignableFrom;
 

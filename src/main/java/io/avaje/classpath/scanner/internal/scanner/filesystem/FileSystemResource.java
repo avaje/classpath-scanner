@@ -15,17 +15,12 @@
  */
 package io.avaje.classpath.scanner.internal.scanner.filesystem;
 
-import io.avaje.classpath.scanner.core.ClassPathScanException;
-import io.avaje.classpath.scanner.internal.FileCopyUtils;
 import io.avaje.classpath.scanner.Resource;
+import io.avaje.classpath.scanner.internal.FileCopyUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * A resource on the filesystem.
@@ -45,13 +40,23 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
     this.location = new File(location);
   }
 
+  @Override
   public String toString() {
     return location.toString();
   }
 
   /**
-   * @return The location of the resource on the classpath.
+   * Return The filename of this resource, without the path.
    */
+  @Override
+  public String getFilename() {
+    return location.getName();
+  }
+
+  /**
+   * Return the location of the resource on the classpath.
+   */
+  @Override
   public String getLocation() {
     return location.getPath().replace('\\','/');
   }
@@ -61,24 +66,35 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
    *
    * @return The location of this resource on disk.
    */
+  @Override
   public String getLocationOnDisk() {
     return location.getAbsolutePath();
+  }
+
+  @Override
+  public List<String> loadAsLines(Charset charset) {
+    try {
+      InputStream inputStream = new FileInputStream(location);
+      return FileCopyUtils.readLines(inputStream, charset);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**
    * Loads this resource as a string.
    *
-   * @param encoding The encoding to use.
+   * @param charset The encoding to use.
    * @return The string contents of the resource.
    */
-  public String loadAsString(String encoding) {
+  @Override
+  public String loadAsString(Charset charset) {
     try {
       InputStream inputStream = new FileInputStream(location);
-      Reader reader = new InputStreamReader(inputStream, Charset.forName(encoding));
-
+      Reader reader = new InputStreamReader(inputStream, charset);
       return FileCopyUtils.copyToString(reader);
     } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load filesystem resource: " + location.getPath() + " (encoding: " + encoding + ")", e);
+      throw new UncheckedIOException("Unable to load filesystem resource: " + location.getPath() + " (charset: " + charset + ")", e);
     }
   }
 
@@ -87,22 +103,17 @@ class FileSystemResource implements Resource, Comparable<FileSystemResource> {
    *
    * @return The contents of the resource.
    */
+  @Override
   public byte[] loadAsBytes() {
     try {
       InputStream inputStream = new FileInputStream(location);
       return FileCopyUtils.copyToByteArray(inputStream);
     } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load filesystem resource: " + location.getPath(), e);
+      throw new UncheckedIOException("Unable to load filesystem resource: " + location.getPath(), e);
     }
   }
 
-  /**
-   * @return The filename of this resource, without the path.
-   */
-  public String getFilename() {
-    return location.getName();
-  }
-
+  @Override
   public int compareTo(FileSystemResource o) {
     return location.compareTo(o.location);
   }

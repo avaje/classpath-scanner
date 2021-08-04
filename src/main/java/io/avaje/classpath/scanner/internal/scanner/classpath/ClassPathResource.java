@@ -16,18 +16,13 @@
 package io.avaje.classpath.scanner.internal.scanner.classpath;
 
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.core.ClassPathScanException;
 import io.avaje.classpath.scanner.internal.FileCopyUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * A resource on the classpath.
@@ -58,57 +53,66 @@ class ClassPathResource implements Comparable<ClassPathResource>, Resource {
     return location;
   }
 
+  public String getFilename() {
+    return location.substring(location.lastIndexOf("/") + 1);
+  }
+
+  @Override
   public String getLocation() {
     return location;
   }
 
+  @Override
   public String getLocationOnDisk() {
     URL url = getUrl();
     if (url == null) {
-      throw new ClassPathScanException("Unable to location resource on disk: " + location);
+      throw new IllegalStateException("Unable to location resource on disk: " + location);
     }
     try {
       return new File(URLDecoder.decode(url.getPath(), "UTF-8")).getAbsolutePath();
     } catch (UnsupportedEncodingException e) {
-      throw new ClassPathScanException("Unknown encoding: UTF-8", e);
+      throw new UncheckedIOException("Unknown encoding: UTF-8", e);
     }
   }
 
   /**
-   * @return The url of this resource.
+   * Return The url of this resource.
    */
   private URL getUrl() {
     return classLoader.getResource(location);
   }
 
-  public String loadAsString(String encoding) {
+  @Override
+  public List<String> loadAsLines(Charset charset) {
+    InputStream inputStream = classLoader.getResourceAsStream(location);
+    return FileCopyUtils.readLines(inputStream, charset);
+  }
+
+  @Override
+  public String loadAsString(Charset charset) {
     try {
       InputStream inputStream = classLoader.getResourceAsStream(location);
       if (inputStream == null) {
-        throw new ClassPathScanException("Unable to obtain inputstream for resource: " + location);
+        throw new IllegalStateException("Unable to obtain inputstream for resource: " + location);
       }
-      Reader reader = new InputStreamReader(inputStream, Charset.forName(encoding));
-
+      Reader reader = new InputStreamReader(inputStream, charset);
       return FileCopyUtils.copyToString(reader);
     } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load resource: " + location + " (encoding: " + encoding + ")", e);
+      throw new UncheckedIOException("Unable to load resource: " + location + " (encoding: " + charset + ")", e);
     }
   }
 
+  @Override
   public byte[] loadAsBytes() {
     try {
       InputStream inputStream = classLoader.getResourceAsStream(location);
       if (inputStream == null) {
-        throw new ClassPathScanException("Unable to obtain inputstream for resource: " + location);
+        throw new IllegalStateException("Unable to obtain inputstream for resource: " + location);
       }
       return FileCopyUtils.copyToByteArray(inputStream);
     } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load resource: " + location, e);
+      throw new UncheckedIOException("Unable to load resource: " + location, e);
     }
-  }
-
-  public String getFilename() {
-    return location.substring(location.lastIndexOf("/") + 1);
   }
 
   public boolean exists() {
@@ -120,11 +124,8 @@ class ClassPathResource implements Comparable<ClassPathResource>, Resource {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     ClassPathResource that = (ClassPathResource) o;
-
     if (!location.equals(that.location)) return false;
-
     return true;
   }
 

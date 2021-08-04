@@ -3,12 +3,12 @@
 
   <groupId>io.avaje</groupId>
   <artifactId>classpath-scanner</artifactId>
-  <version>4.3-SNAPSHOT</version>
+  <version>5.0-SNAPSHOT</version>
 
   <parent>
     <groupId>org.avaje</groupId>
     <artifactId>java8-oss</artifactId>
-    <version>2.1</version>
+    <version>3.1</version>
   </parent>
 
   <scm>
@@ -19,15 +19,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>io.avaje</groupId>
-      <artifactId>classpath-scanner-api</artifactId>
-      <version>4.1</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.25</version>
+      <version>1.7.32</version>
       <scope>provided</scope>
     </dependency>
 
@@ -35,14 +29,14 @@
     <dependency>
       <groupId>org.jboss</groupId>
       <artifactId>jboss-vfs</artifactId>
-      <version>3.2.11.Final</version>
+      <version>3.2.15.Final</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.osgi</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <version>3.6.0.v20100517</version>
+      <version>3.7.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -56,7 +50,7 @@
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android</artifactId>
-      <version>4.0.1.2</version>
+      <version>4.1.1.4</version>
       <scope>provided</scope>
     </dependency>
 

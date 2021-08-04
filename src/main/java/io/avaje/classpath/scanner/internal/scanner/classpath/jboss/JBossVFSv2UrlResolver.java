@@ -15,9 +15,9 @@
  */
 package io.avaje.classpath.scanner.internal.scanner.classpath.jboss;
 
-import io.avaje.classpath.scanner.core.ClassPathScanException;
 import io.avaje.classpath.scanner.internal.scanner.classpath.UrlResolver;
 
+import java.io.UncheckedIOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 
@@ -37,7 +37,7 @@ public class JBossVFSv2UrlResolver implements UrlResolver {
       Object root = getRootMethod.invoke(null, url);
       return (URL) getRealURLMethod.invoke(null, root);
     } catch (Exception e) {
-      throw new ClassPathScanException("JBoss VFS v2 call failed", e);
+      throw new RuntimeException("JBoss VFS v2 call failed", e);
     }
   }
 }
