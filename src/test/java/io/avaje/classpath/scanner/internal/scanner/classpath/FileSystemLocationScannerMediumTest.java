@@ -16,15 +16,15 @@
 package io.avaje.classpath.scanner.internal.scanner.classpath;
 
 import io.avaje.classpath.scanner.internal.UrlUtils;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test for FileSystemClassPathLocationScanner.

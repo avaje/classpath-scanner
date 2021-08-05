@@ -7,16 +7,16 @@ import org.example.dummy.DummyAbstractJdbcMigration;
 import org.example.dummy.V4__DummyExtendedAbstractJdbcMigration;
 import org.example.dummy.Version3dot5;
 import org.example.thing.SomeTestInterface;
+import org.junit.jupiter.api.Test;
 import org.mockito.MockSettings;
 import org.mockito.internal.creation.MockSettingsImpl;
-import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for ClassPathScanner.
@@ -107,12 +107,12 @@ public class ClassPathScannerSmallTest {
   @Test
   public void scanForResourcesJarFile() {
 
-    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:org/testng"), FilterResource.byPrefixSuffix("Af", ".class"));
-    assertEquals(resources.size(), 6);
+    List<Resource> resources = classPathScanner.scanForResources(new Location("classpath:org/junit/jupiter/api"), FilterResource.byPrefixSuffix("Af", ".class"));
+    assertEquals(resources.size(), 5);
 
-    assertEquals("org/testng/annotations/AfterClass.class", resources.get(0).location());
-    assertEquals("org/testng/annotations/AfterGroups.class", resources.get(1).location());
-    assertEquals("org/testng/annotations/AfterMethod.class", resources.get(2).location());
+    assertEquals("org/junit/jupiter/api/AfterAll.class", resources.get(0).location());
+    assertEquals("org/junit/jupiter/api/AfterEach.class", resources.get(1).location());
+    assertEquals("org/junit/jupiter/api/extension/AfterAllCallback.class", resources.get(2).location());
   }
 
   @Test

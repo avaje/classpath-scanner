@@ -15,16 +15,15 @@
  */
 package io.avaje.classpath.scanner.internal.scanner.filesystem;
 
-import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.FilterResource;
-import org.testng.annotations.Test;
+import io.avaje.classpath.scanner.core.Location;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
-import static org.testng.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test for FileSystemScanner.

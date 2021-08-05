@@ -2,11 +2,9 @@ package io.avaje.classpath.scanner;
 
 
 import io.avaje.classpath.scanner.core.Location;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LocationTest {
 

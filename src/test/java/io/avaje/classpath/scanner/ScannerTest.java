@@ -3,14 +3,14 @@ package io.avaje.classpath.scanner;
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.core.Scanner;
 import org.example.thing.SomeTestInterface;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ScannerTest {
 
