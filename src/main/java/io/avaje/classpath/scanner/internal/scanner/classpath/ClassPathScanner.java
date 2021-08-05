@@ -19,7 +19,6 @@ import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.FilterResource;
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.ResourceFilter;
-import io.avaje.classpath.scanner.core.ClassPathScanException;
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.internal.EnvironmentDetection;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
@@ -30,15 +29,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * ClassPath scanner.
@@ -78,26 +72,20 @@ public class ClassPathScanner implements ResourceAndClassScanner {
 
   @Override
   public List<Resource> scanForResources(Location path, ResourceFilter predicate) {
-
     try {
       List<Resource> resources = new ArrayList<>();
-
-      Set<String> resourceNames = findResourceNames(path, predicate);
-      for (String resourceName : resourceNames) {
+      for (String resourceName : findResourceNames(path, predicate)) {
         resources.add(new ClassPathResource(resourceName, classLoader));
         LOG.trace("... found resource: {}", resourceName);
       }
-
       return resources;
-
     } catch (IOException e) {
-      throw new ClassPathScanException(e);
+      throw new UncheckedIOException(e);
     }
   }
 
   @Override
   public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
-
     try {
       List<Class<?>> classes = new ArrayList<>();
 
@@ -119,11 +107,9 @@ public class ClassPathScanner implements ResourceAndClassScanner {
 
         }
       }
-
       return classes;
-
     } catch (IOException e) {
-      throw new ClassPathScanException(e);
+      throw new UncheckedIOException(e);
     }
   }
 

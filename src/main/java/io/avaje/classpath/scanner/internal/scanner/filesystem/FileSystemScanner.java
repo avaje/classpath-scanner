@@ -17,7 +17,6 @@ package io.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.ResourceFilter;
-import io.avaje.classpath.scanner.core.ClassPathScanException;
 import io.avaje.classpath.scanner.core.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,18 +54,11 @@ public class FileSystemScanner {
     }
 
     List<Resource> resources = new ArrayList<>();
-
-    try {
-      Set<String> resourceNames = findResourceNames(path, predicate);
-      for (String resourceName : resourceNames) {
-        resources.add(new FileSystemResource(resourceName));
-        LOG.debug("Found filesystem resource: " + resourceName);
-      }
-      return resources;
-
-    } catch (Exception e) {
-      throw new ClassPathScanException(e);
+    for (String resourceName : findResourceNames(path, predicate)) {
+      resources.add(new FileSystemResource(resourceName));
+      LOG.debug("Found filesystem resource: " + resourceName);
     }
+    return resources;
   }
 
   /**

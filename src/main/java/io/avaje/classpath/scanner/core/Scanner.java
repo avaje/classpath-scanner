@@ -55,7 +55,6 @@ public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
    * @return The resources that were found.
    */
   public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
-
     if (location.isFileSystem()) {
       return fileSystemScanner.scanForResources(location, predicate);
     }

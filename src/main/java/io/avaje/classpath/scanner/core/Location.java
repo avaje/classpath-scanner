@@ -47,7 +47,6 @@ public final class Location implements Comparable<Location> {
    * @param descriptor The location descriptor.
    */
   public Location(String descriptor) {
-
     String normalizedDescriptor = descriptor.trim().replace("\\", "/");
 
     if (normalizedDescriptor.contains(":")) {
@@ -57,7 +56,6 @@ public final class Location implements Comparable<Location> {
       prefix = CLASSPATH_PREFIX;
       path = normalizedDescriptor;
     }
-
     if (isClassPath()) {
       path = path.replace(".", "/");
       if (path.startsWith("/")) {
@@ -65,10 +63,9 @@ public final class Location implements Comparable<Location> {
       }
     } else {
       if (!isFileSystem()) {
-        throw new ClassPathScanException("Unknown prefix, should be either filesystem: or classpath: " + normalizedDescriptor);
+        throw new IllegalStateException("Unknown prefix, should be either filesystem: or classpath: " + normalizedDescriptor);
       }
     }
-
     if (path.endsWith("/")) {
       path = path.substring(0, path.length() - 1);
     }

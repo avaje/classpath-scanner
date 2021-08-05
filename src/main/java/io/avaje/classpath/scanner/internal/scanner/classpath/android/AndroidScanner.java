@@ -21,7 +21,6 @@ import dalvik.system.PathClassLoader;
 import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.ResourceFilter;
-import io.avaje.classpath.scanner.core.ClassPathScanException;
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.andriod.ContextHolder;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
@@ -29,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -48,13 +48,12 @@ public class AndroidScanner implements ResourceAndClassScanner {
     this.classLoader = (PathClassLoader) classLoader;
     context = ContextHolder.getContext();
     if (context == null) {
-      throw new ClassPathScanException("Unable to create scanner. " +
+      throw new IllegalStateException("Unable to create scanner. " +
           "Within an activity you can fix this with org.avaje.classpath.scanner.android.ContextHolder.setContext(this);");
     }
   }
 
   public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
-
     try {
       List<Resource> resources = new ArrayList<>();
       String path = location.getPath();
@@ -63,22 +62,16 @@ public class AndroidScanner implements ResourceAndClassScanner {
           resources.add(new AndroidResource(context.getAssets(), path, asset));
         }
       }
-
       return resources;
-
     } catch (IOException e) {
-      throw new ClassPathScanException(e);
+      throw new UncheckedIOException(e);
     }
   }
 
   public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
-
     try {
-
       String pkg = location.getPath().replace("/", ".");
-
       List<Class<?>> classes = new ArrayList<>();
-
       DexFile dex = new DexFile(context.getApplicationInfo().sourceDir);
       Enumeration<String> entries = dex.entries();
       while (entries.hasMoreElements()) {
@@ -94,8 +87,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
       return classes;
 
     } catch (IOException | ClassNotFoundException e) {
-      throw new ClassPathScanException(e);
-
+      throw new RuntimeException(e);
     }
   }
 }
