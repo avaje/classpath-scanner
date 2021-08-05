@@ -37,13 +37,7 @@ class ClassPathResource implements Resource {
    */
   private final ClassLoader classLoader;
 
-  /**
-   * Creates a new ClassPathResource.
-   *
-   * @param location    The location of the resource on the classpath.
-   * @param classLoader The ClassLoader to use.
-   */
-  public ClassPathResource(String location, ClassLoader classLoader) {
+  ClassPathResource(String location, ClassLoader classLoader) {
     this.location = location;
     this.classLoader = classLoader;
   }
@@ -54,12 +48,12 @@ class ClassPathResource implements Resource {
   }
 
   @Override
-  public String getLocation() {
+  public String location() {
     return location;
   }
 
   @Override
-  public String getFilename() {
+  public String name() {
     return location.substring(location.lastIndexOf("/") + 1);
   }
 

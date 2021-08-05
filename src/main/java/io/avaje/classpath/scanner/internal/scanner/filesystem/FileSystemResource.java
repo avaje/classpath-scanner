@@ -27,12 +27,9 @@ import java.util.List;
  */
 class FileSystemResource implements Resource {
 
-  /**
-   * The location of the resource on the filesystem.
-   */
   private final File file;
 
-  public FileSystemResource(String location) {
+  FileSystemResource(String location) {
     this.file = new File(location);
   }
 
@@ -42,12 +39,12 @@ class FileSystemResource implements Resource {
   }
 
   @Override
-  public String getLocation() {
+  public String location() {
     return file.getPath().replace('\\', '/');
   }
 
   @Override
-  public String getFilename() {
+  public String name() {
     return file.getName();
   }
 

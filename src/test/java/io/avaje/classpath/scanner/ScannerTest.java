@@ -13,27 +13,27 @@ import static org.testng.Assert.assertNotNull;
 
 public class ScannerTest {
 
-  private ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+  private final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
   @Test
-  public void testScanForResources() throws Exception {
+  public void testScanForResources() {
 
     Scanner scanner = new Scanner(classLoader);
     List<Resource> resources = scanner.scanForResources(new Location("scantest"), FilterResource.bySuffix(".txt"));
 
     assertEquals(1, resources.size());
     Resource resource = resources.get(0);
-    assertEquals("one.txt", resource.getFilename());
-    assertNotNull(resource.getLocation());
+    assertEquals("one.txt", resource.name());
+    assertNotNull(resource.location());
     assertEquals("Hello", resource.loadAsString(StandardCharsets.UTF_8));
 
     resources = scanner.scanForResources("scantest", FilterResource.bySuffix(".txt"));
     assertEquals(1, resources.size());
-    assertEquals("one.txt", resources.get(0).getFilename());
+    assertEquals("one.txt", resources.get(0).name());
   }
 
   @Test
-  public void testScanForClasses() throws Exception {
+  public void testScanForClasses() {
 
 
     ClassFilter predicate = SomeTestInterface.class::isAssignableFrom;

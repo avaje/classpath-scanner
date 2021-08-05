@@ -34,30 +34,31 @@ class AndroidResource implements Resource {
   private final String path;
   private final String name;
 
-  public AndroidResource(AssetManager assetManager, String path, String name) {
+  AndroidResource(AssetManager assetManager, String path, String name) {
     this.assetManager = assetManager;
     this.path = path;
     this.name = name;
   }
 
+  @Override
   public String toString() {
-    return getLocation();
+    return location();
   }
 
   @Override
-  public String getLocation() {
+  public String location() {
     return path + "/" + name;
   }
 
   @Override
-  public String getFilename() {
+  public String name() {
     return name;
   }
 
   @Override
   public InputStream inputStream() {
     try {
-      return assetManager.open(getLocation());
+      return assetManager.open(location());
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
