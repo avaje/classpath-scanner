@@ -20,7 +20,7 @@ import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.core.Location;
-import io.avaje.classpath.scanner.andriod.ContextHolder;
+import io.avaje.classpath.scanner.core.AndriodContextHolder;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
 
   public AndroidScanner(ClassLoader classLoader) {
     this.classLoader = (PathClassLoader) classLoader;
-    context = ContextHolder.getContext();
+    context = AndriodContextHolder.getContext();
     if (context == null) {
       throw new IllegalStateException("Unable to create scanner. " +
           "Within an activity you can fix this with org.avaje.classpath.scanner.android.ContextHolder.setContext(this);");

@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package io.avaje.classpath.scanner.andriod;
+package io.avaje.classpath.scanner.core;
 
 import android.content.Context;
 
@@ -24,8 +24,8 @@ import android.content.Context;
  *     You can set this within an activity using ContextHolder.setContext(this);
  * </p>
  */
-public class ContextHolder {
-  private ContextHolder() {
+public class AndriodContextHolder {
+  private AndriodContextHolder() {
   }
 
   /**
@@ -44,6 +44,6 @@ public class ContextHolder {
    * @param context The Android context to use to be able to scan assets and classes for migrations.
    */
   public static void setContext(Context context) {
-    ContextHolder.context = context;
+    AndriodContextHolder.context = context;
   }
 }
