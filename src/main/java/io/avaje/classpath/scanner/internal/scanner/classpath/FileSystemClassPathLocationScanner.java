@@ -54,10 +54,8 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
    * @param folder              The folder to look for resources under on disk.
    * @return The resource names;
    */
-    /*private -> for testing*/
   Set<String> findResourceNamesFromFileSystem(String classPathRootOnDisk, String scanRootLocation, File folder) {
     LOG.debug("Scanning for resources in path: {} ({})", folder.getPath(), scanRootLocation);
-
     Set<String> resourceNames = new TreeSet<>();
 
     File[] files = folder.listFiles();
@@ -75,12 +73,11 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
         }
       }
     }
-
     return resourceNames;
   }
 
   private boolean ignorePath(String resourcePath) {
-    return resourcePath.startsWith("org/avaje/classpath") || resourcePath.startsWith("io/ebean");
+    return resourcePath.startsWith("io/avaje/classpath") || resourcePath.startsWith("io/ebean");
   }
 
   /**
@@ -92,7 +89,6 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
    */
   private String toResourceNameOnClasspath(String classPathRootOnDisk, File file) {
     String fileName = file.getAbsolutePath().replace("\\", "/");
-
     //Cut off the part on disk leading to the root of the classpath
     //This leaves a resource name starting with the scanRootLocation,
     //   with no leading slash, containing subDirs and the fileName.

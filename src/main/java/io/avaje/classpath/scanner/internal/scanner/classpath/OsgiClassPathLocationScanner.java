@@ -43,32 +43,27 @@ public class OsgiClassPathLocationScanner implements ClassPathLocationScanner {
   public Set<String> findResourceNames(String location, URL locationUrl) {
     Set<String> resourceNames = new TreeSet<>();
 
-    Bundle bundle = getTargetBundleOrCurrent(FrameworkUtil.getBundle(getClass()), locationUrl);
+    Bundle bundle = targetBundleOrCurrent(FrameworkUtil.getBundle(getClass()), locationUrl);
     @SuppressWarnings({"unchecked"})
     Enumeration<URL> entries = bundle.findEntries(locationUrl.getPath(), "*", true);
-
     if (entries != null) {
       while (entries.hasMoreElements()) {
-        URL entry = entries.nextElement();
-        String resourceName = getPathWithoutLeadingSlash(entry);
-
-        resourceNames.add(resourceName);
+        resourceNames.add(pathWithoutLeadingSlash(entries.nextElement()));
       }
     }
-
     return resourceNames;
   }
 
-  private Bundle getTargetBundleOrCurrent(Bundle currentBundle, URL locationUrl) {
+  private Bundle targetBundleOrCurrent(Bundle currentBundle, URL locationUrl) {
     try {
-      Bundle targetBundle = currentBundle.getBundleContext().getBundle(getBundleId(locationUrl.getHost()));
+      Bundle targetBundle = currentBundle.getBundleContext().getBundle(bundleId(locationUrl.getHost()));
       return targetBundle != null ? targetBundle : currentBundle;
     } catch (Exception e) {
       return currentBundle;
     }
   }
 
-  private long getBundleId(String host) {
+  private long bundleId(String host) {
     final Matcher matcher = bundleIdPattern.matcher(host);
     if (matcher.find()) {
       return Double.valueOf(matcher.group()).longValue();
@@ -76,9 +71,8 @@ public class OsgiClassPathLocationScanner implements ClassPathLocationScanner {
     throw new IllegalArgumentException("There's no bundleId in passed URL");
   }
 
-  private String getPathWithoutLeadingSlash(URL entry) {
+  private String pathWithoutLeadingSlash(URL entry) {
     final String path = entry.getPath();
-
     return path.startsWith("/") ? path.substring(1) : path;
   }
 }

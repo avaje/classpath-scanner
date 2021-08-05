@@ -59,6 +59,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    * Cache resource names.
    */
   private final Map<ClassPathLocationScanner, Map<URL, Set<String>>> resourceNameCache = new HashMap<>();
+  private final boolean websphere;
 
   /**
    * Creates a new Classpath scanner.
@@ -67,6 +68,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    */
   public ClassPathScanner(ClassLoader classLoader) {
     this.classLoader = classLoader;
+    this.websphere = classLoader.getClass().getName().startsWith("com.ibm");
   }
 
   @Override
@@ -75,7 +77,6 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       List<Resource> resources = new ArrayList<>();
       for (String resourceName : findResourceNames(path, predicate)) {
         resources.add(new ClassPathResource(resourceName, classLoader));
-        LOG.trace("... found resource: {}", resourceName);
       }
       return resources;
     } catch (IOException e) {
@@ -97,13 +98,11 @@ public class ClassPathScanner implements ResourceAndClassScanner {
           Class<?> clazz = classLoader.loadClass(className);
           if (predicate.test(clazz)) {
             classes.add(clazz);
-            LOG.trace("... matched class: {} ", className);
           }
         } catch (NoClassDefFoundError | ClassNotFoundException err) {
-          // This happens on class that inherits from an other class which are no longer in the classpath
+          // This happens on class that inherits from another class which are no longer in the classpath
           // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided"
           LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
-
         }
       }
       return classes;
@@ -131,7 +130,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
 
     Set<String> resourceNames = new TreeSet<>();
 
-    List<URL> locationsUrls = getLocationUrlsForPath(location);
+    List<URL> locationsUrls = locationUrlsForPath(location);
     for (URL locationUrl : locationsUrls) {
       LOG.debug("scanning URL: {}", locationUrl.toExternalForm());
 
@@ -163,36 +162,35 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    * @return The underlying physical URLs.
    * @throws IOException when the lookup fails.
    */
-  private List<URL> getLocationUrlsForPath(Location location) throws IOException {
-    if (locationUrlCache.containsKey(location)) {
-      return locationUrlCache.get(location);
+  private List<URL> locationUrlsForPath(Location location) throws IOException {
+    final List<URL> urls = locationUrlCache.get(location);
+    if (urls != null) {
+      return urls;
     }
     LOG.debug("determining location urls for {} using ClassLoader {} ...", location, classLoader);
     List<URL> locationUrls = new ArrayList<>();
-
-    if (classLoader.getClass().getName().startsWith("com.ibm")) {
-      // WebSphere
-      Enumeration<URL> urls = classLoader.getResources(location.toString());
-      if (!urls.hasMoreElements()) {
-        LOG.debug("Unable to resolve location {}", location);
-      }
-      while (urls.hasMoreElements()) {
-        URL url = urls.nextElement();
-        locationUrls.add(new URL(URLDecoder.decode(url.toExternalForm(), "UTF-8")));
-      }
+    if (websphere) {
+      loadWebsphereUrls(location, locationUrls);
     } else {
-      Enumeration<URL> urls = classLoader.getResources(location.path());
-      if (!urls.hasMoreElements()) {
-        LOG.debug("Unable to resolve location {}", location);
-      }
-
-      while (urls.hasMoreElements()) {
-        locationUrls.add(urls.nextElement());
-      }
+      loadLocationUrls(location, locationUrls);
     }
-
     locationUrlCache.put(location, locationUrls);
     return locationUrls;
+  }
+
+  private void loadLocationUrls(Location location, List<URL> locationUrls) throws IOException {
+    Enumeration<URL> urls = classLoader.getResources(location.path());
+    while (urls.hasMoreElements()) {
+      locationUrls.add(urls.nextElement());
+    }
+  }
+
+  private void loadWebsphereUrls(Location location, List<URL> locationUrls) throws IOException {
+    Enumeration<URL> urls = classLoader.getResources(location.toString());
+    while (urls.hasMoreElements()) {
+      URL url = urls.nextElement();
+      locationUrls.add(new URL(URLDecoder.decode(url.toExternalForm(), "UTF-8")));
+    }
   }
 
   /**
@@ -215,8 +213,9 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    * @return The location scanner or {@code null} if it could not be created.
    */
   private ClassPathLocationScanner createLocationScanner(String protocol) {
-    if (locationScannerCache.containsKey(protocol)) {
-      return locationScannerCache.get(protocol);
+    final ClassPathLocationScanner scanner = locationScannerCache.get(protocol);
+    if (scanner != null) {
+      return scanner;
     }
 
     if ("file".equals(protocol)) {
@@ -226,10 +225,8 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       return locationScanner;
     }
 
-    if ("jar".equals(protocol)
-        || "zip".equals(protocol) //WebLogic
-        || "wsjar".equals(protocol) //WebSphere
-        ) {
+    //zip - WebLogic, wsjar - WebSphere
+    if ("jar".equals(protocol) || "zip".equals(protocol) || "wsjar".equals(protocol)) {
       JarFileClassPathLocationScanner locationScanner = new JarFileClassPathLocationScanner();
       locationScannerCache.put(protocol, locationScanner);
       resourceNameCache.put(locationScanner, new HashMap<>());
@@ -243,10 +240,8 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       resourceNameCache.put(locationScanner, new HashMap<>());
       return locationScanner;
     }
-    if (featureDetector.isOsgi() && (
-        "bundle".equals(protocol) // Felix
-            || "bundleresource".equals(protocol)) //Equinox
-        ) {
+    // bundle - Felix, bundleresource - Equinox
+    if (featureDetector.isOsgi() && ("bundle".equals(protocol) || "bundleresource".equals(protocol)) ) {
       OsgiClassPathLocationScanner locationScanner = new OsgiClassPathLocationScanner();
       locationScannerCache.put(protocol, locationScanner);
       resourceNameCache.put(locationScanner, new HashMap<>());

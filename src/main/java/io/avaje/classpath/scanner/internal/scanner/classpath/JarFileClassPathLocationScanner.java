@@ -30,8 +30,8 @@ import java.util.jar.JarFile;
  * ClassPathLocationScanner for jar files.
  */
 public class JarFileClassPathLocationScanner implements ClassPathLocationScanner {
-  public Set<String> findResourceNames(String location, URL locationUrl) throws IOException {
 
+  public Set<String> findResourceNames(String location, URL locationUrl) throws IOException {
     try (JarFile jarFile = getJarFromUrl(locationUrl)) {
       // For Tomcat and non-expanded WARs.
       String prefix = jarFile.getName().toLowerCase().endsWith(".war") ? "WEB-INF/classes/" : "";
