@@ -61,38 +61,22 @@ class ClassPathResource implements Resource {
   }
 
   @Override
+  public InputStream inputStream() {
+    return classLoader.getResourceAsStream(location);
+  }
+
+  @Override
   public List<String> loadAsLines(Charset charset) {
-    InputStream inputStream = classLoader.getResourceAsStream(location);
-    return FileCopyUtils.readLines(inputStream, charset);
+    return FileCopyUtils.readLines(inputStream(), charset);
   }
 
   @Override
   public String loadAsString(Charset charset) {
     try {
-      InputStream inputStream = classLoader.getResourceAsStream(location);
-      if (inputStream == null) {
-        throw new IllegalStateException("Unable to obtain inputstream for resource: " + location);
-      }
-      Reader reader = new InputStreamReader(inputStream, charset);
-      return FileCopyUtils.copyToString(reader);
+      return FileCopyUtils.copyToString(inputStream(), charset);
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to load resource: " + location + " (encoding: " + charset + ")", e);
     }
-  }
-
-  @SuppressWarnings({"RedundantIfStatement"})
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ClassPathResource that = (ClassPathResource) o;
-    if (!location.equals(that.location)) return false;
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    return location.hashCode();
   }
 
 }

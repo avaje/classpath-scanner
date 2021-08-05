@@ -62,13 +62,17 @@ class FileSystemResource implements Resource {
   }
 
   @Override
-  public List<String> loadAsLines(Charset charset) {
+  public InputStream inputStream() {
     try {
-      InputStream inputStream = new FileInputStream(location);
-      return FileCopyUtils.readLines(inputStream, charset);
+      return new FileInputStream(location);
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
+  }
+
+  @Override
+  public List<String> loadAsLines(Charset charset) {
+    return FileCopyUtils.readLines(inputStream(), charset);
   }
 
   /**
@@ -80,9 +84,7 @@ class FileSystemResource implements Resource {
   @Override
   public String loadAsString(Charset charset) {
     try {
-      InputStream inputStream = new FileInputStream(location);
-      Reader reader = new InputStreamReader(inputStream, charset);
-      return FileCopyUtils.copyToString(reader);
+      return FileCopyUtils.copyToString(inputStream(), charset);
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to load filesystem resource: " + location.getPath() + " (charset: " + charset + ")", e);
     }

@@ -32,24 +32,18 @@ public class FileCopyUtils {
     // Do nothing
   }
 
-  /**
-   * Copy the contents of the given Reader into a String.
-   * Closes the reader when done.
-   *
-   * @param in the reader to copy from
-   * @return the String that has been copied to
-   * @throws IOException in case of I/O errors
-   */
+  public static String copyToString(InputStream inputStream, Charset charset) throws IOException {
+    return copyToString(new InputStreamReader(inputStream, charset));
+  }
+
   public static String copyToString(Reader in) throws IOException {
     StringWriter out = new StringWriter();
     copy(in, out);
     String str = out.toString();
-
     //Strip UTF-8 BOM if necessary
     if (str.startsWith("\ufeff")) {
       return str.substring(1);
     }
-
     return str;
   }
 

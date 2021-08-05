@@ -57,19 +57,23 @@ class AndroidResource implements Resource {
   }
 
   @Override
-  public List<String> loadAsLines(Charset charset) {
+  public InputStream inputStream() {
     try {
-      final InputStream is = assetManager.open(location());
-      return FileCopyUtils.readLines(is, charset);
+      return assetManager.open(location());
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
   }
 
   @Override
+  public List<String> loadAsLines(Charset charset) {
+    return FileCopyUtils.readLines(inputStream(), charset);
+  }
+
+  @Override
   public String loadAsString(Charset charset) {
     try {
-      return FileCopyUtils.copyToString(new InputStreamReader(assetManager.open(location()), charset));
+      return FileCopyUtils.copyToString(inputStream(), charset);
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to load asset: " + location(), e);
     }

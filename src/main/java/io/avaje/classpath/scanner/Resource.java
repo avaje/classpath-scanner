@@ -15,6 +15,7 @@
  */
 package io.avaje.classpath.scanner;
 
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -34,15 +35,17 @@ public interface Resource {
   String fileName();
 
   /**
-   * Return the content as UTF8 encoded lines.
+   * Return the resource content as an InputStream.
+   */
+  InputStream inputStream();
+
+  /**
+   * Return the resource content as lines.
    */
   List<String> loadAsLines(Charset charset);
 
   /**
-   * Return the content of this resource as a string.
-   *
-   * @param charset The encoding to use.
-   * @return The string contents of the resource.
+   * Return the resource content as a string.
    */
   String loadAsString(Charset charset);
 
