@@ -16,7 +16,6 @@
 package io.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.ResourceFilter;
 import io.avaje.classpath.scanner.core.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 /**
  * FileSystem scanner.
@@ -43,10 +43,8 @@ public class FileSystemScanner {
    * @param predicate The predicate used to match resources.
    * @return The resources that were found.
    */
-  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
-
+  public List<Resource> scanForResources(Location location, Predicate<String> predicate) {
     String path = location.getPath();
-
     File dir = new File(path);
     if (!dir.isDirectory() || !dir.canRead()) {
       LOG.debug("Unable to resolve location filesystem:{}", path);
@@ -65,7 +63,7 @@ public class FileSystemScanner {
    * Finds the resources names present at this location and below on the classpath starting with this prefix and
    * ending with this suffix.
    */
-  private Set<String> findResourceNames(String path, ResourceFilter predicate) {
+  private Set<String> findResourceNames(String path, Predicate<String> predicate) {
     Set<String> resourceNames = findResourceNamesFromFileSystem(path, new File(path));
     return filterResourceNames(resourceNames, predicate);
   }
@@ -78,9 +76,7 @@ public class FileSystemScanner {
    * @return The resource names;
    */
   Set<String> findResourceNamesFromFileSystem(String scanRootLocation, File folder) {
-
     LOG.debug("scanning in path: {} ({})", folder.getPath(), scanRootLocation);
-
     Set<String> resourceNames = new TreeSet<>();
 
     File[] files = folder.listFiles();
@@ -95,17 +91,16 @@ public class FileSystemScanner {
         }
       }
     }
-
     return resourceNames;
   }
 
   /**
    * Filters this list of resource names to only include the ones whose filename matches this prefix and this suffix.
    */
-  private Set<String> filterResourceNames(Set<String> resourceNames, ResourceFilter predicate) {
+  private Set<String> filterResourceNames(Set<String> resourceNames, Predicate<String> predicate) {
     Set<String> filteredResourceNames = new TreeSet<>();
     for (String resourceName : resourceNames) {
-      if (predicate.isMatch(resourceName)) {
+      if (predicate.test(resourceName)) {
         filteredResourceNames.add(resourceName);
       }
     }

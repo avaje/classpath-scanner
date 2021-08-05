@@ -1,6 +1,5 @@
 package io.avaje.classpath.scanner.internal.scanner.classpath;
 
-import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.FilterResource;
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.core.Location;
@@ -15,6 +14,7 @@ import org.testng.annotations.Test;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import static org.testng.Assert.*;
 
@@ -118,7 +118,7 @@ public class ClassPathScannerSmallTest {
   @Test
   public void scanForClasses() {
 
-    ClassFilter predicate = getMatchClass(SomeTestInterface.class);
+    Predicate<Class<?>> predicate = getMatchClass(SomeTestInterface.class);
 
     List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/example/dummy"), predicate);
 
@@ -129,14 +129,14 @@ public class ClassPathScannerSmallTest {
     assertEquals(V4__DummyExtendedAbstractJdbcMigration.class, classes.get(1));
   }
 
-  private ClassFilter getMatchClass(final Class<?> someAssignable) {
+  private Predicate<Class<?>> getMatchClass(final Class<?> someAssignable) {
     return someAssignable::isAssignableFrom;
   }
 
   @Test
   public void scanForClassesSplitPackage() {
 
-    ClassFilter predicate = getMatchClass(SomeTestInterface.class);
+    Predicate<Class<?>> predicate = getMatchClass(SomeTestInterface.class);
     List<Class<?>> classes = classPathScanner.scanForClasses(new Location("classpath:org/example"), predicate);
 
     assertEquals(4, classes.size());

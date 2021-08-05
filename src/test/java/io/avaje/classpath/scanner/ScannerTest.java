@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -36,7 +37,7 @@ public class ScannerTest {
   public void testScanForClasses() {
 
 
-    ClassFilter predicate = SomeTestInterface.class::isAssignableFrom;
+    Predicate<Class<?>> predicate = SomeTestInterface.class::isAssignableFrom;
 
     Scanner scanner = new Scanner(classLoader);
     List<Class<?>> classes = scanner.scanForClasses(new Location("org/example/dummy"), predicate);

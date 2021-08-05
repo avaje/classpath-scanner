@@ -15,10 +15,8 @@
  */
 package io.avaje.classpath.scanner.internal.scanner.classpath;
 
-import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.FilterResource;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.ResourceFilter;
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.internal.EnvironmentDetection;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
@@ -33,6 +31,7 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * ClassPath scanner.
@@ -71,7 +70,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   }
 
   @Override
-  public List<Resource> scanForResources(Location path, ResourceFilter predicate) {
+  public List<Resource> scanForResources(Location path, Predicate<String> predicate) {
     try {
       List<Resource> resources = new ArrayList<>();
       for (String resourceName : findResourceNames(path, predicate)) {
@@ -85,7 +84,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
   }
 
   @Override
-  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
+  public List<Class<?>> scanForClasses(Location location, Predicate<Class<?>> predicate) {
     try {
       List<Class<?>> classes = new ArrayList<>();
 
@@ -96,7 +95,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
         String className = toClassName(resourceName);
         try {
           Class<?> clazz = classLoader.loadClass(className);
-          if (predicate.isMatch(clazz)) {
+          if (predicate.test(clazz)) {
             classes.add(clazz);
             LOG.trace("... matched class: {} ", className);
           }
@@ -128,7 +127,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
    * Finds the resources names present at this location and below on the classpath starting with this prefix and
    * ending with this suffix.
    */
-  private Set<String> findResourceNames(Location location, ResourceFilter predicate) throws IOException {
+  private Set<String> findResourceNames(Location location, Predicate<String> predicate) throws IOException {
 
     Set<String> resourceNames = new TreeSet<>();
 
@@ -168,9 +167,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     if (locationUrlCache.containsKey(location)) {
       return locationUrlCache.get(location);
     }
-
     LOG.debug("determining location urls for {} using ClassLoader {} ...", location, classLoader);
-
     List<URL> locationUrls = new ArrayList<>();
 
     if (classLoader.getClass().getName().startsWith("com.ibm")) {
@@ -195,7 +192,6 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     }
 
     locationUrlCache.put(location, locationUrls);
-
     return locationUrls;
   }
 
@@ -209,7 +205,6 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     if (new EnvironmentDetection(classLoader).isJBossVFSv2() && protocol.startsWith("vfs")) {
       return new JBossVFSv2UrlResolver();
     }
-
     return new DefaultUrlResolver();
   }
 
@@ -257,18 +252,16 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       resourceNameCache.put(locationScanner, new HashMap<>());
       return locationScanner;
     }
-
     return null;
   }
 
   /**
    * Filters this list of resource names to only include the ones whose filename matches this prefix and this suffix.
    */
-  private Set<String> filterResourceNames(Set<String> resourceNames, ResourceFilter predicate) {
-
+  private Set<String> filterResourceNames(Set<String> resourceNames, Predicate<String> predicate) {
     Set<String> filteredResourceNames = new TreeSet<>();
     for (String resourceName : resourceNames) {
-      if (predicate.isMatch(resourceName)) {
+      if (predicate.test(resourceName)) {
         filteredResourceNames.add(resourceName);
       }
     }

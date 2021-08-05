@@ -18,9 +18,7 @@ package io.avaje.classpath.scanner.internal.scanner.classpath.android;
 import android.content.Context;
 import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
-import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.ResourceFilter;
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.andriod.ContextHolder;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
@@ -32,6 +30,7 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Class & resource scanner for Android.
@@ -53,12 +52,12 @@ public class AndroidScanner implements ResourceAndClassScanner {
     }
   }
 
-  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
+  public List<Resource> scanForResources(Location location, Predicate<String> predicate) {
     try {
       List<Resource> resources = new ArrayList<>();
       String path = location.getPath();
       for (String asset : context.getAssets().list(path)) {
-        if (predicate.isMatch(asset)) {
+        if (predicate.test(asset)) {
           resources.add(new AndroidResource(context.getAssets(), path, asset));
         }
       }
@@ -68,7 +67,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
     }
   }
 
-  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
+  public List<Class<?>> scanForClasses(Location location, Predicate<Class<?>> predicate) {
     try {
       String pkg = location.getPath().replace("/", ".");
       List<Class<?>> classes = new ArrayList<>();
@@ -78,7 +77,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
         String className = entries.nextElement();
         if (className.startsWith(pkg)) {
           Class<?> clazz = classLoader.loadClass(className);
-          if (predicate.isMatch(clazz)) {
+          if (predicate.test(clazz)) {
             classes.add(clazz);
             LOG.trace("... found class: {}", className);
           }

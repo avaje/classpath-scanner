@@ -15,9 +15,7 @@
  */
 package io.avaje.classpath.scanner.core;
 
-import io.avaje.classpath.scanner.ClassFilter;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.ResourceFilter;
 import io.avaje.classpath.scanner.internal.EnvironmentDetection;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import io.avaje.classpath.scanner.internal.scanner.classpath.ClassPathScanner;
@@ -25,6 +23,7 @@ import io.avaje.classpath.scanner.internal.scanner.classpath.android.AndroidScan
 import io.avaje.classpath.scanner.internal.scanner.filesystem.FileSystemScanner;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Scanner for Resources and Classes.
@@ -54,7 +53,7 @@ public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
    * @param predicate The predicate used to match resource names.
    * @return The resources that were found.
    */
-  public List<Resource> scanForResources(Location location, ResourceFilter predicate) {
+  public List<Resource> scanForResources(Location location, Predicate<String> predicate) {
     if (location.isFileSystem()) {
       return fileSystemScanner.scanForResources(location, predicate);
     }
@@ -73,7 +72,7 @@ public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
    * @return The resources that were found.
    */
   @Override
-  public List<Resource> scanForResources(String location, ResourceFilter predicate) {
+  public List<Resource> scanForResources(String location, Predicate<String> predicate) {
     return scanForResources(new Location(location), predicate);
   }
 
@@ -84,7 +83,7 @@ public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
    * @param predicate The predicate used to match scanned classes.
    * @return The classes found matching the predicate
    */
-  public List<Class<?>> scanForClasses(Location location, ClassFilter predicate) {
+  public List<Class<?>> scanForClasses(Location location, Predicate<Class<?>> predicate) {
     return resourceAndClassScanner.scanForClasses(location, predicate);
   }
 
@@ -96,7 +95,7 @@ public class Scanner implements io.avaje.classpath.scanner.ClassPathScanner {
    * @return The classes found matching the predicate
    */
   @Override
-  public List<Class<?>> scanForClasses(String location, ClassFilter predicate) {
+  public List<Class<?>> scanForClasses(String location, Predicate<Class<?>> predicate) {
     return scanForClasses(new Location(location), predicate);
   }
 
