@@ -55,7 +55,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
   public List<Resource> scanForResources(Location location, Predicate<String> predicate) {
     try {
       List<Resource> resources = new ArrayList<>();
-      String path = location.getPath();
+      String path = location.path();
       for (String asset : context.getAssets().list(path)) {
         if (predicate.test(asset)) {
           resources.add(new AndroidResource(context.getAssets(), path, asset));
@@ -69,7 +69,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
 
   public List<Class<?>> scanForClasses(Location location, Predicate<Class<?>> predicate) {
     try {
-      String pkg = location.getPath().replace("/", ".");
+      String pkg = location.path().replace("/", ".");
       List<Class<?>> classes = new ArrayList<>();
       DexFile dex = new DexFile(context.getApplicationInfo().sourceDir);
       Enumeration<String> entries = dex.entries();

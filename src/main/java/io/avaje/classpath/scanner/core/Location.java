@@ -19,7 +19,7 @@ package io.avaje.classpath.scanner.core;
 /**
  * A starting location to scan from.
  */
-public final class Location implements Comparable<Location> {
+public final class Location {
 
   /**
    * The prefix for classpath locations.
@@ -49,9 +49,10 @@ public final class Location implements Comparable<Location> {
   public Location(String descriptor) {
     String normalizedDescriptor = descriptor.trim().replace("\\", "/");
 
-    if (normalizedDescriptor.contains(":")) {
-      prefix = normalizedDescriptor.substring(0, normalizedDescriptor.indexOf(":") + 1);
-      path = normalizedDescriptor.substring(normalizedDescriptor.indexOf(":") + 1);
+    final int colonPos = normalizedDescriptor.indexOf(":");
+    if (colonPos > -1) {
+      prefix = normalizedDescriptor.substring(0, colonPos + 1);
+      path = normalizedDescriptor.substring(colonPos + 1);
     } else {
       prefix = CLASSPATH_PREFIX;
       path = normalizedDescriptor;
@@ -61,10 +62,8 @@ public final class Location implements Comparable<Location> {
       if (path.startsWith("/")) {
         path = path.substring(1);
       }
-    } else {
-      if (!isFileSystem()) {
-        throw new IllegalStateException("Unknown prefix, should be either filesystem: or classpath: " + normalizedDescriptor);
-      }
+    } else if (!isFileSystem()) {
+      throw new IllegalStateException("Unknown prefix, should be either filesystem: or classpath: " + normalizedDescriptor);
     }
     if (path.endsWith("/")) {
       path = path.substring(0, path.length() - 1);
@@ -88,44 +87,39 @@ public final class Location implements Comparable<Location> {
   /**
    * Return the path part of the location.
    */
-  public String getPath() {
+  public String path() {
     return path;
   }
 
   /**
    * Return the prefix denoting classpath of filesystem.
    */
-  public String getPrefix() {
+  public String prefix() {
     return prefix;
   }
 
   /**
    * Return the complete location descriptor.
    */
-  public String getDescriptor() {
+  public String descriptor() {
     return prefix + path;
-  }
-
-  public int compareTo(Location o) {
-    return getDescriptor().compareTo(o.getDescriptor());
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     Location location = (Location) o;
-    return getDescriptor().equals(location.getDescriptor());
+    return descriptor().equals(location.descriptor());
   }
 
   @Override
   public int hashCode() {
-    return getDescriptor().hashCode();
+    return descriptor().hashCode();
   }
 
   @Override
   public String toString() {
-    return getDescriptor();
+    return descriptor();
   }
 }
