@@ -5,6 +5,7 @@ import io.avaje.classpath.scanner.core.Scanner;
 import org.example.thing.SomeTestInterface;
 import org.testng.annotations.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -23,10 +24,8 @@ public class ScannerTest {
     assertEquals(1, resources.size());
     Resource resource = resources.get(0);
     assertEquals("one.txt", resource.getFilename());
-    assertNotNull(resource.getLocationOnDisk());
     assertNotNull(resource.getLocation());
-    assertEquals("Hello", resource.loadAsString("UTF-8"));
-    assertNotNull(resource.loadAsBytes());
+    assertEquals("Hello", resource.loadAsString(StandardCharsets.UTF_8));
 
     resources = scanner.scanForResources("scantest", FilterResource.bySuffix(".txt"));
     assertEquals(1, resources.size());

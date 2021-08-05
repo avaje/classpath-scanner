@@ -17,16 +17,19 @@ package io.avaje.classpath.scanner.internal.scanner.classpath.android;
 
 import android.content.res.AssetManager;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.core.ClassPathScanException;
 import io.avaje.classpath.scanner.internal.FileCopyUtils;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Resource within an Android App.
  */
 class AndroidResource implements Resource {
+
   private final AssetManager assetManager;
   private final String path;
   private final String name;
@@ -47,30 +50,27 @@ class AndroidResource implements Resource {
   }
 
   @Override
-  public String getLocationOnDisk() {
-    return null;
-  }
-
-  @Override
-  public String loadAsString(String encoding) {
-    try {
-      return FileCopyUtils.copyToString(new InputStreamReader(assetManager.open(getLocation()), encoding));
-    } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load asset: " + getLocation(), e);
-    }
-  }
-
-  @Override
-  public byte[] loadAsBytes() {
-    try {
-      return FileCopyUtils.copyToByteArray(assetManager.open(getLocation()));
-    } catch (IOException e) {
-      throw new ClassPathScanException("Unable to load asset: " + getLocation(), e);
-    }
-  }
-
-  @Override
   public String getFilename() {
     return name;
   }
+
+  @Override
+  public InputStream inputStream() {
+    try {
+      return assetManager.open(getLocation());
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  @Override
+  public List<String> loadAsLines(Charset charset) {
+    return FileCopyUtils.readLines(inputStream(), charset);
+  }
+
+  @Override
+  public String loadAsString(Charset charset) {
+    return FileCopyUtils.copyToString(inputStream(), charset);
+  }
+
 }
