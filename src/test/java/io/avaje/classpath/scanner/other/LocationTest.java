@@ -1,4 +1,4 @@
-package io.avaje.classpath.scanner;
+package io.avaje.classpath.scanner.other;
 
 
 import io.avaje.classpath.scanner.core.Location;

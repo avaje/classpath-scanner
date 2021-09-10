@@ -16,25 +16,18 @@
 package org.example.dummy;
 
 import org.example.thing.SomeTestInterface;
-import org.example.thing.SomeTestInterface;
-
-import java.sql.Connection;
 
 /**
  * Test migration.
  */
-public class Version3dot5 extends DummyAbstractJdbcMigration implements SomeTestInterface {//}, MigrationChecksumProvider {
-    public void doMigrate(Connection connection) throws Exception {
+public class Version3dot5 extends DummyAbstractJdbcMigration implements SomeTestInterface {
+    public void doMigrate(String junk) throws Exception {
         //Do nothing.
     }
 
     public Integer getChecksum() {
         return 35;
     }
-
-//    public MigrationVersion getVersion() {
-//        return MigrationVersion.fromVersion("3.5");
-//    }
 
     public String getDescription() {
         return "Three Dot Five";

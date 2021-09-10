@@ -16,17 +16,14 @@
 package org.example.dummy;
 
 import org.example.thing.SomeTestInterface;
-import org.example.thing.SomeTestInterface;
-
-import java.sql.Connection;
 
 /**
  * Test for abstract class support.
  */
 public abstract class DummyAbstractJdbcMigration implements SomeTestInterface {
-    public final void migrate(Connection connection) throws Exception {
-        doMigrate(connection);
+    public final void migrate(String junk) throws Exception {
+        doMigrate(junk);
     }
 
-    public abstract void doMigrate(Connection connection) throws Exception;
+    public abstract void doMigrate(String junk) throws Exception;
 }

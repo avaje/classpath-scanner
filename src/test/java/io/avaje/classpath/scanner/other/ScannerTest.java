@@ -1,5 +1,7 @@
-package io.avaje.classpath.scanner;
+package io.avaje.classpath.scanner.other;
 
+import io.avaje.classpath.scanner.FilterResource;
+import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.core.Scanner;
 import org.example.thing.SomeTestInterface;
