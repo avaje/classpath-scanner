@@ -16,12 +16,16 @@
     <tag>HEAD</tag>
   </scm>
 
+<!--  <properties>-->
+<!--    <java.version>11</java.version>-->
+<!--  </properties>-->
+
   <dependencies>
 
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>classpath-scanner-api</artifactId>
-      <version>6.0</version>
+      <version>6.1</version>
     </dependency>
 
     <dependency>
@@ -69,5 +73,45 @@
     </dependency>
 
   </dependencies>
+
+<!--  <build>-->
+<!--    <plugins>-->
+<!--      <plugin>-->
+<!--        <artifactId>maven-surefire-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <argLine>-->
+<!--            &#45;&#45;add-modules java.sql-->
+<!--            &#45;&#45;add-opens io.avaje.classpath.scanner/io.avaje.classpath.scanner=java.sql-->
+<!--            &#45;&#45;add-opens io.avaje.classpath.scanner/io.avaje.classpath.scanner=ALL-UNNAMED-->
+<!--          </argLine>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+<!--    </plugins>-->
+<!--  </build>-->
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.moditect</groupId>
+        <artifactId>moditect-maven-plugin</artifactId>
+        <version>1.0.0.RC1</version>
+        <executions>
+          <execution>
+            <id>add-module-infos</id>
+            <phase>package</phase>
+            <goals>
+              <goal>add-module-info</goal>
+            </goals>
+            <configuration>
+              <jvmVersion>9</jvmVersion>
+              <module>
+                <moduleInfoFile>src/main/java9/module-info.java</moduleInfoFile>
+              </module>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
