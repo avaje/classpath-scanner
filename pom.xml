@@ -3,7 +3,7 @@
 
   <groupId>io.avaje</groupId>
   <artifactId>classpath-scanner</artifactId>
-  <version>6.1</version>
+  <version>6.2</version>
 
   <parent>
     <groupId>org.avaje</groupId>
@@ -25,7 +25,7 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>classpath-scanner-api</artifactId>
-      <version>6.1</version>
+      <version>6.2</version>
     </dependency>
 
     <dependency>

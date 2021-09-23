@@ -15,15 +15,10 @@
  */
 package io.avaje.classpath.scanner.internal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Detects whether certain features are available or not.
  */
 public class EnvironmentDetection {
-
-  private static final Logger LOG = LoggerFactory.getLogger(EnvironmentDetection.class);
 
   /**
    * The ClassLoader to use.
@@ -62,7 +57,7 @@ public class EnvironmentDetection {
   public boolean isJBossVFSv2() {
     if (jbossVFSv2 == null) {
       jbossVFSv2 = isPresent("org.jboss.virtual.VFS", classLoader);
-      LOG.trace("... JBoss VFS v2 available: {}", jbossVFSv2);
+      ScanLog.log.trace("JBossVFSv2 {}", jbossVFSv2);
     }
 
     return jbossVFSv2;
@@ -76,7 +71,7 @@ public class EnvironmentDetection {
   public boolean isJBossVFSv3() {
     if (jbossVFSv3 == null) {
       jbossVFSv3 = isPresent("org.jboss.vfs.VFS", classLoader);
-      LOG.trace("... JBoss VFS v3 available: {}", jbossVFSv3);
+      ScanLog.log.trace("JBossVFSv3 {}", jbossVFSv3);
     }
 
     return jbossVFSv3;
@@ -90,7 +85,7 @@ public class EnvironmentDetection {
   public boolean isOsgi() {
     if (osgi == null) {
       osgi = isPresent("org.osgi.framework.Bundle", classLoader);
-      LOG.trace("... OSGi framework available: {}", osgi);
+      ScanLog.log.trace("OSGi {}", osgi);
     }
 
     return osgi;

@@ -19,11 +19,10 @@ import android.content.Context;
 import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
 import io.avaje.classpath.scanner.Resource;
-import io.avaje.classpath.scanner.core.Location;
 import io.avaje.classpath.scanner.core.AndriodContextHolder;
+import io.avaje.classpath.scanner.core.Location;
+import io.avaje.classpath.scanner.internal.ScanLog;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -37,8 +36,6 @@ import java.util.function.Predicate;
  */
 public class AndroidScanner implements ResourceAndClassScanner {
 
-  private static final Logger LOG = LoggerFactory.getLogger(AndroidScanner.class);
-
   private final Context context;
 
   private final PathClassLoader classLoader;
@@ -47,8 +44,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
     this.classLoader = (PathClassLoader) classLoader;
     context = AndriodContextHolder.getContext();
     if (context == null) {
-      throw new IllegalStateException("Unable to create scanner. " +
-          "Within an activity you can fix this with org.avaje.classpath.scanner.android.ContextHolder.setContext(this);");
+      throw new IllegalStateException("Unable to create scanner. Within an activity fix this with io.avaje.classpath.scanner.android.ContextHolder.setContext(this);");
     }
   }
 
@@ -79,7 +75,7 @@ public class AndroidScanner implements ResourceAndClassScanner {
           Class<?> clazz = classLoader.loadClass(className);
           if (predicate.test(clazz)) {
             classes.add(clazz);
-            LOG.trace("... found class: {}", className);
+            ScanLog.log.trace("found {}", className);
           }
         }
       }

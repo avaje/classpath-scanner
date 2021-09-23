@@ -18,13 +18,13 @@ package io.avaje.classpath.scanner.internal.scanner.classpath;
 import io.avaje.classpath.scanner.FilterResource;
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.core.Location;
+import io.avaje.classpath.scanner.internal.ScanLog;
 import io.avaje.classpath.scanner.internal.EnvironmentDetection;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import io.avaje.classpath.scanner.internal.UrlUtils;
 import io.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv2UrlResolver;
 import io.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv3ClassPathLocationScanner;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -38,7 +38,7 @@ import java.util.function.Predicate;
  */
 public class ClassPathScanner implements ResourceAndClassScanner {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ClassPathScanner.class);
+  private static final Logger log = ScanLog.log;
 
   /**
    * The ClassLoader for loading migrations on the classpath.
@@ -90,8 +90,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       List<Class<?>> classes = new ArrayList<>();
 
       Set<String> resourceNames = findResourceNames(location, FilterResource.bySuffix(".class"));
-
-      LOG.debug("scanning for classes at {} found {} resources to check", location, resourceNames.size());
+      log.trace("scan for classes at {} found {}", location, resourceNames.size());
       for (String resourceName : resourceNames) {
         String className = toClassName(resourceName);
         try {
@@ -102,7 +101,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
         } catch (NoClassDefFoundError | ClassNotFoundException err) {
           // This happens on class that inherits from another class which are no longer in the classpath
           // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided"
-          LOG.debug("... class " + className + " could not be loaded and will be ignored.", err);
+          log.debug("class " + className + " not loaded and will be ignored", err);
         }
       }
       return classes;
@@ -132,7 +131,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
 
     List<URL> locationsUrls = locationUrlsForPath(location);
     for (URL locationUrl : locationsUrls) {
-      LOG.debug("scanning URL: {}", locationUrl.toExternalForm());
+      log.trace("scan {}", locationUrl.toExternalForm());
 
       UrlResolver urlResolver = createUrlResolver(locationUrl.getProtocol());
       URL resolvedUrl = urlResolver.toStandardJavaUrl(locationUrl);
@@ -141,7 +140,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       ClassPathLocationScanner classPathLocationScanner = createLocationScanner(protocol);
       if (classPathLocationScanner == null) {
         String scanRoot = UrlUtils.toFilePath(resolvedUrl);
-        LOG.warn("Unable to scan location: {} (unsupported protocol: {})", scanRoot, protocol);
+        log.warn("Unable to scan location: {} (unsupported protocol: {})", scanRoot, protocol);
       } else {
         Set<String> names = resourceNameCache.get(classPathLocationScanner).get(resolvedUrl);
         if (names == null) {
@@ -167,7 +166,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     if (urls != null) {
       return urls;
     }
-    LOG.debug("determining location urls for {} using ClassLoader {} ...", location, classLoader);
+    log.trace("determine urls for {} using classLoader {}", location, classLoader);
     List<URL> locationUrls = new ArrayList<>();
     if (websphere) {
       loadWebsphereUrls(location, locationUrls);

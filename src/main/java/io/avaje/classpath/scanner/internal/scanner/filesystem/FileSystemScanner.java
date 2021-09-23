@@ -17,15 +17,11 @@ package io.avaje.classpath.scanner.internal.scanner.filesystem;
 
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.core.Location;
+import io.avaje.classpath.scanner.internal.ScanLog;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -33,7 +29,7 @@ import java.util.function.Predicate;
  */
 public class FileSystemScanner {
 
-  private static final Logger LOG = LoggerFactory.getLogger(FileSystemScanner.class);
+  private static final Logger log = ScanLog.log;
 
   /**
    * Scans the FileSystem for resources under the specified location, starting with the specified prefix and ending with
@@ -47,14 +43,12 @@ public class FileSystemScanner {
     String path = location.path();
     File dir = new File(path);
     if (!dir.isDirectory() || !dir.canRead()) {
-      LOG.debug("Unable to resolve location filesystem:{}", path);
+      log.debug("Unable to resolve location filesystem: {}", path);
       return Collections.emptyList();
     }
-
     List<Resource> resources = new ArrayList<>();
     for (String resourceName : findResourceNames(path, predicate)) {
       resources.add(new FileSystemResource(resourceName));
-      LOG.debug("Found filesystem resource: " + resourceName);
     }
     return resources;
   }
@@ -76,7 +70,7 @@ public class FileSystemScanner {
    * @return The resource names;
    */
   Set<String> findResourceNamesFromFileSystem(String scanRootLocation, File folder) {
-    LOG.debug("scanning in path: {} ({})", folder.getPath(), scanRootLocation);
+    log.trace("scan path: {} ({})", folder.getPath(), scanRootLocation);
     Set<String> resourceNames = new TreeSet<>();
 
     File[] files = folder.listFiles();
