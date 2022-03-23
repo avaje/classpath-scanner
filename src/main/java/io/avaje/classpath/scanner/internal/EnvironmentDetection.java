@@ -57,9 +57,7 @@ public class EnvironmentDetection {
   public boolean isJBossVFSv2() {
     if (jbossVFSv2 == null) {
       jbossVFSv2 = isPresent("org.jboss.virtual.VFS", classLoader);
-      ScanLog.log.trace("JBossVFSv2 {}", jbossVFSv2);
     }
-
     return jbossVFSv2;
   }
 
@@ -71,9 +69,7 @@ public class EnvironmentDetection {
   public boolean isJBossVFSv3() {
     if (jbossVFSv3 == null) {
       jbossVFSv3 = isPresent("org.jboss.vfs.VFS", classLoader);
-      ScanLog.log.trace("JBossVFSv3 {}", jbossVFSv3);
     }
-
     return jbossVFSv3;
   }
 
@@ -85,9 +81,7 @@ public class EnvironmentDetection {
   public boolean isOsgi() {
     if (osgi == null) {
       osgi = isPresent("org.osgi.framework.Bundle", classLoader);
-      ScanLog.log.trace("OSGi {}", osgi);
     }
-
     return osgi;
   }
 

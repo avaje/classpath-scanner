@@ -24,12 +24,13 @@ import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 import io.avaje.classpath.scanner.internal.UrlUtils;
 import io.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv2UrlResolver;
 import io.avaje.classpath.scanner.internal.scanner.classpath.jboss.JBossVFSv3ClassPathLocationScanner;
-import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.lang.System.Logger.Level;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -38,7 +39,7 @@ import java.util.function.Predicate;
  */
 public class ClassPathScanner implements ResourceAndClassScanner {
 
-  private static final Logger log = ScanLog.log;
+  private static final System.Logger log = ScanLog.log;
 
   /**
    * The ClassLoader for loading migrations on the classpath.
@@ -90,7 +91,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       List<Class<?>> classes = new ArrayList<>();
 
       Set<String> resourceNames = findResourceNames(location, FilterResource.bySuffix(".class"));
-      log.trace("scan for classes at {} found {}", location, resourceNames.size());
+      log.log(Level.TRACE, "scan for classes at {0} found {1}", location, resourceNames.size());
       for (String resourceName : resourceNames) {
         String className = toClassName(resourceName);
         try {
@@ -101,7 +102,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
         } catch (NoClassDefFoundError | ClassNotFoundException err) {
           // This happens on class that inherits from another class which are no longer in the classpath
           // e.g. "public class MyTestRunner extends BlockJUnit4ClassRunner" and junit was in scope "provided"
-          log.debug("class " + className + " not loaded and will be ignored", err);
+          log.log(Level.DEBUG, "class " + className + " not loaded and will be ignored", err);
         }
       }
       return classes;
@@ -131,7 +132,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
 
     List<URL> locationsUrls = locationUrlsForPath(location);
     for (URL locationUrl : locationsUrls) {
-      log.trace("scan {}", locationUrl.toExternalForm());
+      log.log(Level.TRACE, "scan {0}", locationUrl.toExternalForm());
 
       UrlResolver urlResolver = createUrlResolver(locationUrl.getProtocol());
       URL resolvedUrl = urlResolver.toStandardJavaUrl(locationUrl);
@@ -140,7 +141,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       ClassPathLocationScanner classPathLocationScanner = createLocationScanner(protocol);
       if (classPathLocationScanner == null) {
         String scanRoot = UrlUtils.toFilePath(resolvedUrl);
-        log.warn("Unable to scan location: {} (unsupported protocol: {})", scanRoot, protocol);
+        log.log(Level.WARNING, "Unable to scan location: {0} (unsupported protocol: {1})", scanRoot, protocol);
       } else {
         Set<String> names = resourceNameCache.get(classPathLocationScanner).get(resolvedUrl);
         if (names == null) {
@@ -166,7 +167,6 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     if (urls != null) {
       return urls;
     }
-    log.trace("determine urls for {} using classLoader {}", location, classLoader);
     List<URL> locationUrls = new ArrayList<>();
     if (websphere) {
       loadWebsphereUrls(location, locationUrls);
@@ -188,7 +188,7 @@ public class ClassPathScanner implements ResourceAndClassScanner {
     Enumeration<URL> urls = classLoader.getResources(location.toString());
     while (urls.hasMoreElements()) {
       URL url = urls.nextElement();
-      locationUrls.add(new URL(URLDecoder.decode(url.toExternalForm(), "UTF-8")));
+      locationUrls.add(new URL(URLDecoder.decode(url.toExternalForm(), StandardCharsets.UTF_8)));
     }
   }
 

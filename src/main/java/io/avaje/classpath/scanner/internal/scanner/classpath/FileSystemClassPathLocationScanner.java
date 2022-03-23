@@ -17,9 +17,9 @@ package io.avaje.classpath.scanner.internal.scanner.classpath;
 
 import io.avaje.classpath.scanner.internal.ScanLog;
 import io.avaje.classpath.scanner.internal.UrlUtils;
-import org.slf4j.Logger;
 
 import java.io.File;
+import java.lang.System.Logger.Level;
 import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,20 +28,19 @@ import java.util.TreeSet;
  * ClassPathLocationScanner for the file system.
  */
 public class FileSystemClassPathLocationScanner implements ClassPathLocationScanner {
-  private static final Logger log = ScanLog.log;
+  private static final System.Logger log = ScanLog.log;
 
   public Set<String> findResourceNames(String location, URL locationUrl) {
     String filePath = UrlUtils.toFilePath(locationUrl);
     File folder = new File(filePath);
     if (!folder.isDirectory()) {
-      log.trace("skip as not a directory: {}", filePath);
       return new TreeSet<>();
     }
     String classPathRootOnDisk = filePath.substring(0, filePath.length() - location.length());
     if (!classPathRootOnDisk.endsWith(File.separator)) {
       classPathRootOnDisk = classPathRootOnDisk + File.separator;
     }
-    log.trace("scan starting at root in filesystem: {}", classPathRootOnDisk);
+    log.log(Level.TRACE, "scan starting at root in filesystem: {0}", classPathRootOnDisk);
     return findResourceNamesFromFileSystem(classPathRootOnDisk, location, folder);
   }
 
@@ -54,7 +53,7 @@ public class FileSystemClassPathLocationScanner implements ClassPathLocationScan
    * @return The resource names;
    */
   Set<String> findResourceNamesFromFileSystem(String classPathRootOnDisk, String scanRootLocation, File folder) {
-    log.trace("scan resources in path: {} ({})", folder.getPath(), scanRootLocation);
+    log.log(Level.TRACE, "scan resources in path: {0} ({1})", folder.getPath(), scanRootLocation);
     Set<String> resourceNames = new TreeSet<>();
 
     File[] files = folder.listFiles();

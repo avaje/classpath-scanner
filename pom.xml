@@ -3,12 +3,12 @@
 
   <groupId>io.avaje</groupId>
   <artifactId>classpath-scanner</artifactId>
-  <version>6.2</version>
+  <version>7.0</version>
 
   <parent>
     <groupId>org.avaje</groupId>
-    <artifactId>java8-oss</artifactId>
-    <version>3.2</version>
+    <artifactId>java11-oss</artifactId>
+    <version>3.6</version>
   </parent>
 
   <scm>
@@ -25,28 +25,21 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>classpath-scanner-api</artifactId>
-      <version>6.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.30</version>
-      <scope>provided</scope>
+      <version>7.0</version>
     </dependency>
 
     <!-- Provided optional dependencies -->
     <dependency>
       <groupId>org.jboss</groupId>
       <artifactId>jboss-vfs</artifactId>
-      <version>3.2.11.Final</version>
+      <version>3.2.16.Final</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.osgi</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <version>3.6.0.v20100517</version>
+      <version>3.7.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -60,7 +53,7 @@
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android</artifactId>
-      <version>4.0.1.2</version>
+      <version>4.1.1.4</version>
       <scope>provided</scope>
     </dependency>
 
@@ -68,50 +61,12 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>junit</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
       <scope>test</scope>
     </dependency>
 
   </dependencies>
 
-<!--  <build>-->
-<!--    <plugins>-->
-<!--      <plugin>-->
-<!--        <artifactId>maven-surefire-plugin</artifactId>-->
-<!--        <configuration>-->
-<!--          <argLine>-->
-<!--            &#45;&#45;add-modules java.sql-->
-<!--            &#45;&#45;add-opens io.avaje.classpath.scanner/io.avaje.classpath.scanner=java.sql-->
-<!--            &#45;&#45;add-opens io.avaje.classpath.scanner/io.avaje.classpath.scanner=ALL-UNNAMED-->
-<!--          </argLine>-->
-<!--        </configuration>-->
-<!--      </plugin>-->
-<!--    </plugins>-->
-<!--  </build>-->
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
-        <version>1.0.0.RC1</version>
-        <executions>
-          <execution>
-            <id>add-module-infos</id>
-            <phase>package</phase>
-            <goals>
-              <goal>add-module-info</goal>
-            </goals>
-            <configuration>
-              <jvmVersion>9</jvmVersion>
-              <module>
-                <moduleInfoFile>src/main/java9/module-info.java</moduleInfoFile>
-              </module>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

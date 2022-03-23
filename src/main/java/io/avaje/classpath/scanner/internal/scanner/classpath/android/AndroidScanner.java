@@ -21,7 +21,6 @@ import dalvik.system.PathClassLoader;
 import io.avaje.classpath.scanner.Resource;
 import io.avaje.classpath.scanner.core.AndriodContextHolder;
 import io.avaje.classpath.scanner.core.Location;
-import io.avaje.classpath.scanner.internal.ScanLog;
 import io.avaje.classpath.scanner.internal.ResourceAndClassScanner;
 
 import java.io.IOException;
@@ -75,7 +74,6 @@ public class AndroidScanner implements ResourceAndClassScanner {
           Class<?> clazz = classLoader.loadClass(className);
           if (predicate.test(clazz)) {
             classes.add(clazz);
-            ScanLog.log.trace("found {}", className);
           }
         }
       }

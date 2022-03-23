@@ -15,7 +15,6 @@
  */
 package io.avaje.classpath.scanner.internal.scanner.classpath.jboss;
 
-import io.avaje.classpath.scanner.internal.ScanLog;
 import io.avaje.classpath.scanner.internal.UrlUtils;
 import io.avaje.classpath.scanner.internal.scanner.classpath.ClassPathLocationScanner;
 import org.jboss.vfs.VFS;
@@ -38,7 +37,6 @@ public class JBossVFSv3ClassPathLocationScanner implements ClassPathLocationScan
     if (!classPathRootOnDisk.endsWith("/")) {
       classPathRootOnDisk = classPathRootOnDisk + "/";
     }
-    ScanLog.log.trace("scan starting on JBossVFS: {}", classPathRootOnDisk);
     Set<String> resourceNames = new TreeSet<>();
     List<VirtualFile> files = VFS.getChild(filePath).getChildrenRecursively(VirtualFile::isFile);
     for (VirtualFile file : files) {
