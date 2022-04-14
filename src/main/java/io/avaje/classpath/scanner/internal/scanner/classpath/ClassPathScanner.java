@@ -95,9 +95,11 @@ public class ClassPathScanner implements ResourceAndClassScanner {
       for (String resourceName : resourceNames) {
         String className = toClassName(resourceName);
         try {
-          Class<?> clazz = classLoader.loadClass(className);
-          if (predicate.test(clazz)) {
-            classes.add(clazz);
+          if (!"module-info".equals(className)) {
+            Class<?> clazz = classLoader.loadClass(className);
+            if (predicate.test(clazz)) {
+              classes.add(clazz);
+            }
           }
         } catch (NoClassDefFoundError | ClassNotFoundException err) {
           // This happens on class that inherits from another class which are no longer in the classpath
