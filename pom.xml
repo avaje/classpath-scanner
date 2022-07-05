@@ -3,12 +3,12 @@
   <parent>
     <groupId>org.avaje</groupId>
     <artifactId>java11-oss</artifactId>
-    <version>3.7</version>
+    <version>3.9</version>
   </parent>
 
   <groupId>io.avaje</groupId>
   <artifactId>classpath-scanner</artifactId>
-  <version>7.1</version>
+  <version>7.2</version>
 
   <scm>
     <developerConnection>scm:git:git@github.com:avaje/classpath-scanner.git</developerConnection>
@@ -20,7 +20,7 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>classpath-scanner-api</artifactId>
-      <version>7.1</version>
+      <version>7.2</version>
     </dependency>
 
     <!-- Provided optional dependencies -->
